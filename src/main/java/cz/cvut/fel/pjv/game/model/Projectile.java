@@ -6,4 +6,19 @@ public class Projectile {
     private enum source {Player, Enemy};
     private String direction;
     private int speed;
+
+    public Projectile(int posX, int posY, String direction, int speed) {
+        this.posX = posX;
+        this.posY = posY;
+        this.direction = direction;
+        this.speed = speed;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
 }

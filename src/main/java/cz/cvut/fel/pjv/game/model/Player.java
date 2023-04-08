@@ -27,4 +27,16 @@ public class Player {
 
     public void shoot() {
     }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
 }

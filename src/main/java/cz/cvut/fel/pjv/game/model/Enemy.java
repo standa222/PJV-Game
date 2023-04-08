@@ -20,4 +20,16 @@ public class Enemy {
         this.drop = drop;
         projectiles = new ArrayList<>();
     }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
+    }
 }

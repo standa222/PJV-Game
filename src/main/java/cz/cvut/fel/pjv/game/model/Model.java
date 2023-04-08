@@ -16,4 +16,16 @@ public class Model {
         board = new Board(data.getBoardWidth(), data.getBoardHeight(), data.getBoard());
 
     }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
 }
