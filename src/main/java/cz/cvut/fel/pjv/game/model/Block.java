@@ -26,4 +26,12 @@ public class Block {
     public int getValue() {
         return value;
     }
+
+    public boolean isWalkThrough() {
+        return walkThrough;
+    }
+
+    public boolean isShootThrough() {
+        return shootThrough;
+    }
 }

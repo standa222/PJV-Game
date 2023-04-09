@@ -25,6 +25,44 @@ public class Player {
         projectiles = new ArrayList<>();
     }
 
+    public void moveUp() {
+        facing = "up";
+        if (posY <= 1) {
+            posY = 1;
+        } else {
+            posY--;
+        }
+    }
+
+    public void moveDown() {
+        facing = "down";
+        if (posY >= 16) {
+            posY = 16;
+        } else {
+            posY++;
+        }
+    }
+
+    public void moveRight() {
+        facing = "right";
+        if (posX >= 20) {
+            posX = 20;
+        } else {
+            posX++;
+        }
+    }
+
+    public void moveLeft() {
+        facing = "left";
+        if (posX <= 1) {
+            posX = 1;
+        } else {
+            posX--;
+        }
+    }
+
+
+
     public void shoot() {
     }
 
@@ -34,6 +72,14 @@ public class Player {
 
     public int getPosY() {
         return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 
     public ArrayList<Projectile> getProjectiles() {

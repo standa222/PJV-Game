@@ -14,7 +14,32 @@ public class Model {
             enemies.add(new Enemy(Integer.parseInt(data.getEnemies()[i][0]), Integer.parseInt(data.getEnemies()[i][1]),Integer.parseInt(data.getEnemies()[i][2]),Integer.parseInt(data.getEnemies()[i][3]),Double.parseDouble(data.getEnemies()[i][4]), data.getEnemies()[i][5]));
         }
         board = new Board(data.getBoardWidth(), data.getBoardHeight(), data.getBoard());
+    }
 
+    public void movePlayer(char c) {
+        switch (c) {
+            case 'w':
+                if (board.getBlock(player.getPosX(), player.getPosY()-1).isWalkThrough()) {
+                    player.moveUp();
+                }
+                break;
+            case 'a':
+                if (board.getBlock(player.getPosX()-1, player.getPosY()).isWalkThrough()) {
+                    player.moveLeft();
+                }
+                break;
+            case 's':
+                if (board.getBlock(player.getPosX(), player.getPosY()+1).isWalkThrough()) {
+                    player.moveDown();
+                }
+                break;
+            case 'd':
+                if (board.getBlock(player.getPosX()+1, player.getPosY()).isWalkThrough()) {
+                    player.moveRight();
+                }
+                break;
+            default:
+        }
     }
 
     public Board getBoard() {

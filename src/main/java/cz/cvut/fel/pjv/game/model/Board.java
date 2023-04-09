@@ -37,4 +37,13 @@ public class Board {
     public ArrayList<Block> getBlocks() {
         return blocks;
     }
+
+    public Block getBlock(int x, int y) {
+        for (Block b : blocks) {
+            if (b.getX()==x-1 && b.getY()==y-1) {
+                return b;
+            }
+        }
+        return new Block(-1,-1,-1, true,true);
+    }
 }
