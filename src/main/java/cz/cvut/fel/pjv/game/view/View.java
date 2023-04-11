@@ -1,5 +1,6 @@
 package cz.cvut.fel.pjv.game.view;
 
+import cz.cvut.fel.pjv.game.Controller;
 import cz.cvut.fel.pjv.game.model.Block;
 import cz.cvut.fel.pjv.game.model.Enemy;
 import cz.cvut.fel.pjv.game.model.Model;
@@ -25,17 +26,19 @@ public class View {
     private int sceneWidth = 1000;
     private int sceneHeight = 800;
     private final Stage stage;
-    private final Model model;
+    private Model model;
     private HashMap<Integer,Color> colorMap;
     private int BLOCK_SIZE = 50;
+    private final Controller controller;
 
-    public View(Stage stage, Model model) {
+    public View(Stage stage, Model model, Controller controller) {
         this.stage = stage;
         this.model = model;
         colorMap = new HashMap<>();
         colorMap.put(0, Color.GREEN);
         colorMap.put(1, Color.DARKGRAY);
         colorMap.put(2, Color.BLUE);
+        this.controller = controller;
     }
 
     public void showStartMenu() {
@@ -45,7 +48,6 @@ public class View {
         startGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
                 draw();
             }
         });
@@ -98,12 +100,12 @@ public class View {
 
     public void drawProjectiles(Pane pane) {
         for (Projectile p : model.getPlayer().getProjectiles()) {
-            Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 3);
+            Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
             pane.getChildren().add(c);
         }
         for (Enemy e : model.getEnemies()) {
             for (Projectile p : model.getPlayer().getProjectiles()) {
-                Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 3);
+                Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
                 pane.getChildren().add(c);
             }
         }
