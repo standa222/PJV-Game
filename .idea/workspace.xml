@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78308364-a2af-4993-aade-c351a9914a87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Chest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Key.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Key.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Key.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/init.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +56,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/stanislav/Documents/sem2/PJV/semestralka/playground",
+    "last_opened_file_path": "/home/stanislav/Documents/sem2/PJV/semestralka/game",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -93,7 +94,9 @@
       <workItem from="1681201903175" duration="336000" />
       <workItem from="1681227720835" duration="25000" />
       <workItem from="1681229308106" duration="2734000" />
-      <workItem from="1681238210825" duration="5169000" />
+      <workItem from="1681238210825" duration="5675000" />
+      <workItem from="1681283472192" duration="509000" />
+      <workItem from="1681295613082" duration="9915000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, classes added">
       <created>1680962202223</created>
@@ -116,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681056720022</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Gameloop implemented, Player movement reworked, playershooting added">
+      <created>1681243538321</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681243538321</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +137,7 @@
     <MESSAGE value="Initial commit, classes added" />
     <MESSAGE value="Board, player and enemies correctly drawn in view" />
     <MESSAGE value="Movement of player added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Movement of player added" />
+    <MESSAGE value="Gameloop implemented, Player movement reworked, playershooting added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gameloop implemented, Player movement reworked, playershooting added" />
   </component>
 </project>

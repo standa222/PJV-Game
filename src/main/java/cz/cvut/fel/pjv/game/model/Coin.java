@@ -1,4 +1,10 @@
 package cz.cvut.fel.pjv.game.model;
 
-public class Coin extends Item {
+public class Coin implements Item {
+    private int value;
+
+    @Override
+    public void pickUpItem() {
+
+    }
 }

@@ -3,13 +3,14 @@ package cz.cvut.fel.pjv.game.model;
 public class Projectile {
     private double posX;
     private double posY;
-    private enum source {Player, Enemy};
+    private Class source;
     private String direction;
     private double speed;
 
-    public Projectile(double posX, double posY, String direction, double speed) {
+    public Projectile(double posX, double posY, Class source, String direction, double speed) {
         this.posX = posX;
         this.posY = posY;
+        this.source = source;
         this.direction = direction;
         this.speed = speed;
     }

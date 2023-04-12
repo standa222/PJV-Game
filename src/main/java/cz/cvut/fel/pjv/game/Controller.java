@@ -36,11 +36,12 @@ public class Controller extends Application {
         view.showStartMenu();
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if ("wasd".contains(key.getCode().toString().toLowerCase())) {
-                model.movePlayer(key.getText().charAt(0));
+                model.movePlayer(key.getText().toLowerCase().charAt(0));
             }
         });
         stage.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
-            if ("wasd".contains(key.getCode().toString().toLowerCase())) {
+            String letter = key.getCode().toString().toLowerCase();
+            if (("w".equals(letter) && model.getPlayer().getFacing().equals("up")) || ("a".equals(letter) && model.getPlayer().getFacing().equals("left")) || ("s".equals(letter) && model.getPlayer().getFacing().equals("down")) || ("d".equals(letter) && model.getPlayer().getFacing().equals("right"))) {
                 model.stopPlayer();
             }
         });

@@ -85,14 +85,14 @@ public class View {
     }
 
     public void drawPlayer(Pane pane) {
-        Circle player = new Circle(model.getPlayer().getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, model.getPlayer().getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 20);
+        Circle player = new Circle(model.getPlayer().getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, model.getPlayer().getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 25);
         player.setFill(Color.YELLOW);
         pane.getChildren().add(player);
     }
 
     public void drawEnemies(Pane pane) {
         for (Enemy enemy : model.getEnemies()) {
-            Circle c = new Circle(enemy.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, enemy.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 20);
+            Circle c = new Circle(enemy.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, enemy.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 25);
             c.setFill(Color.BLACK);
             pane.getChildren().add(c);
         }
@@ -104,7 +104,7 @@ public class View {
             pane.getChildren().add(c);
         }
         for (Enemy e : model.getEnemies()) {
-            for (Projectile p : model.getPlayer().getProjectiles()) {
+            for (Projectile p : e.getProjectiles()) {
                 Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
                 pane.getChildren().add(c);
             }

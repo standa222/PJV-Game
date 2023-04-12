@@ -34,7 +34,7 @@ public class Player {
         if (posY <= 1) {
             posY = 1;
         } else {
-            movementSpeed = 0.03;
+            movementSpeed = 0.05;
         }
     }
 
@@ -43,7 +43,7 @@ public class Player {
         if (posY >= 16) {
             posY = 16;
         } else {
-            movementSpeed = 0.03;
+            movementSpeed = 0.05;
         }
     }
 
@@ -52,7 +52,7 @@ public class Player {
         if (posX >= 20) {
             posX = 20;
         } else {
-            movementSpeed = 0.03;
+            movementSpeed = 0.05;
         }
     }
 
@@ -61,14 +61,14 @@ public class Player {
         if (posX <= 1) {
             posX = 1;
         } else {
-            movementSpeed = 0.03;
+            movementSpeed = 0.05;
         }
     }
 
     public void shoot() {
         shootingCounter++;
         if (shootingCounter > 120/attackSpeed) {
-            Projectile p = new Projectile(posX, posY, facing, 0.1);
+            Projectile p = new Projectile(posX, posY, this.getClass(), facing, 0.1);
             projectiles.add(p);
             shootingCounter = 0;
         }
