@@ -38,6 +38,9 @@ public class View {
         this.controller = controller;
     }
 
+    /**
+     * Show start menu
+     */
     public void showStartMenu() {
         Button startGameButton = new Button("Start the game");
         startGameButton.setPadding(new Insets(16));
@@ -64,6 +67,9 @@ public class View {
         stage.show();
     }
 
+    /**
+     * Key method of View, draw everything and bring it on stage.
+     */
     public void draw() {
         Pane pane = new Pane();
         drawBoard(pane);

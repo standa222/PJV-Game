@@ -70,6 +70,12 @@ public class Controller extends Application {
         };
     }
 
+    /**
+     * Load game data from .json configuration file.
+     *
+     * @return returns data read from the file that are essential for creating model
+     * @throws IOException if file is not found
+     */
     private GameData loadGameData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         GameData readData = objectMapper.readValue(new File("src/main/resources/init.json"), GameData.class);

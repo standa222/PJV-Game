@@ -22,6 +22,10 @@ public class Model {
         this.controller = controller;
     }
 
+    /**
+     * Call correct move function based on pressed key.
+     * @param c
+     */
     public void movePlayer(char c) {
         switch (c) {
             case 'w':
@@ -48,10 +52,16 @@ public class Model {
         }
     }
 
+    /**
+     * Stop player movement.
+     */
     public void stopPlayer() {
         player.setMovementSpeed(0);
     }
 
+    /**
+     * Advances state of the game, key method of the game.
+     */
     public void update() {
         if (player.isDead()) {
             controller.gameOver();
@@ -66,6 +76,9 @@ public class Model {
         }
     }
 
+    /**
+     * Advances the state of player
+     */
     public void updatePlayer() {
         double playerSpeed = player.getMovementSpeed();
         switch (player.getFacing()) {
@@ -85,6 +98,9 @@ public class Model {
         player.shoot();
     }
 
+    /**
+     * Advances state of enemies
+     */
     public void updateEnemies() {
         for (Enemy e : enemies) {
             e.shoot(directionToPlayer(e));
@@ -106,6 +122,11 @@ public class Model {
         }
     }
 
+    /**
+     * Calculates the direction in which should the enemy shoot. The projectile in this direction will be the closest to the player.
+     * @param enemy enemy, whose position is used in the calculation
+     * @return the direction in String
+     */
     public String directionToPlayer(Enemy enemy) {
         if (abs(enemy.getPosX()- player.getPosX())<abs(enemy.getPosY()- player.getPosY())) {
             if(enemy.getPosY()- player.getPosY() > 0) {
@@ -122,6 +143,10 @@ public class Model {
         }
     }
 
+
+    /**
+     * Advances state of all projectiles. Iterates through all projectiles of player, then iterates through all enemies and their projectiles.
+     */
     public void updateProjectiles() {
         ArrayList<Projectile> toBeRemoved = new ArrayList<>();
         for (Projectile p : player.getProjectiles()) {
@@ -191,6 +216,9 @@ public class Model {
         }
     }
 
+    /**
+     * Check if any of the projectiles hit something. Player projectiles can only hurt enemies and Enemy projectiles can only hurt the player.
+     */
     public void checkHits() {
         // iterate through all the projectiles
         ArrayList<Projectile> projectilesToRemove = new ArrayList<>();
@@ -211,19 +239,25 @@ public class Model {
         enemies.removeAll(enemiesToRemove);
         for (Enemy e : enemies) {
             for (Projectile p : e.getProjectiles()) {
-                // check hits
+                // TODO: very similar to player projectiles above
             }
         }
     }
 
+    /**
+     * Check if player is standing on any items on the board and should pick them up.
+     */
     public void checkItemPickUp() {
         for (Item item : items) {
-            if (item.getPosX() >0) {
-                // do something
-            }
+            // TODO
         }
     }
 
+    /**
+     * When enemy is killed, update its isDead attribute, drop item that it should drop and remove it from enemies list, so it doesn't render anymore.
+     *
+     * @param enemy the enemy whose HP went to 0 or below
+     */
     public void killEnemy(Enemy enemy) {
         Item item;
         enemy.setDead(true);
@@ -259,6 +293,11 @@ public class Model {
         return items;
     }
 
+    /**
+     * Check if all enemies are dead, so the level is done.
+     *
+     * @return {@code true} if all enemies are dead or the list is empty, {@code false} otherwise.
+     */
     public boolean allEnemiesDead() {
         for (Enemy e : enemies) {
             if (!e.isDead()) {
@@ -268,7 +307,10 @@ public class Model {
         return true;
     }
 
+    /**
+     * Save Player data like attack damage, attack speed, maximum HP, movement speed into .json format so in next level the Player is alreadz upgraded.
+     */
     public void savePlayerData() {
-
+        // TODO
     }
 }
