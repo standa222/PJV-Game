@@ -1,10 +1,7 @@
 package cz.cvut.fel.pjv.game.view;
 
 import cz.cvut.fel.pjv.game.Controller;
-import cz.cvut.fel.pjv.game.model.Block;
-import cz.cvut.fel.pjv.game.model.Enemy;
-import cz.cvut.fel.pjv.game.model.Model;
-import cz.cvut.fel.pjv.game.model.Projectile;
+import cz.cvut.fel.pjv.game.model.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -48,7 +45,7 @@ public class View {
         startGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                draw();
+                controller.startGameLoop();
             }
         });
         ImageView menuImage = new ImageView();
@@ -73,6 +70,7 @@ public class View {
         drawPlayer(pane);
         drawEnemies(pane);
         drawProjectiles(pane);
+        drawItems(pane);
         stage.setScene(new Scene(pane, sceneWidth, sceneHeight));
     }
 
@@ -109,5 +107,31 @@ public class View {
                 pane.getChildren().add(c);
             }
         }
+    }
+
+    public void drawItems(Pane pane) {
+        for (Item item : model.getItems()) {
+            if (item instanceof Coin) {
+                Circle c = new Circle(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
+                c.setFill(Color.YELLOW);
+                pane.getChildren().add(c);
+            } else if (item instanceof Key) {
+                Rectangle r = new Rectangle((int)item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, (int)item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 25,10);
+                r.setFill(Color.YELLOW);
+                pane.getChildren().add(r);
+            } else if (item instanceof HealingPotion) {
+                Circle c = new Circle(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
+                c.setFill(Color.RED);
+                pane.getChildren().add(c);
+            }
+        }
+    }
+
+    public void goodEnd() {
+
+    }
+
+    public void badEnd() {
+
     }
 }

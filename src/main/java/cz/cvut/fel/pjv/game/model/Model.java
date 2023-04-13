@@ -12,12 +12,14 @@ public class Model {
     private final ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private Board board;
+    private Controller controller;
     public Model(GameData data, Controller controller) {
-        player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), Double.parseDouble(data.getPlayer()[6]), data.getPlayer()[7]);
+        player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), data.getPlayer()[6]);
         for (int i = 0; i < data.getEnemies().length; i++) {
             enemies.add(new Enemy(Integer.parseInt(data.getEnemies()[i][0]), Integer.parseInt(data.getEnemies()[i][1]),Integer.parseInt(data.getEnemies()[i][2]),Integer.parseInt(data.getEnemies()[i][3]),Double.parseDouble(data.getEnemies()[i][4]), data.getEnemies()[i][5]));
         }
         board = new Board(data.getBoardWidth(), data.getBoardHeight(), data.getBoard());
+        this.controller = controller;
     }
 
     public void movePlayer(char c) {
@@ -51,10 +53,17 @@ public class Model {
     }
 
     public void update() {
-        updatePlayer();
-        updateEnemies();
-        updateProjectiles();
-        checkHits();
+        if (player.isDead()) {
+            controller.gameOver();
+        } else if (allEnemiesDead()) {
+            controller.ggwp();
+        } else {
+            updatePlayer();
+            updateEnemies();
+            updateProjectiles();
+            checkHits();
+            checkItemPickUp();
+        }
     }
 
     public void updatePlayer() {
@@ -183,7 +192,55 @@ public class Model {
     }
 
     public void checkHits() {
+        // iterate through all the projectiles
+        ArrayList<Projectile> projectilesToRemove = new ArrayList<>();
+        ArrayList<Enemy> enemiesToRemove = new ArrayList<>();
+        for (Projectile p : player.getProjectiles()) {
+            for (Enemy e : enemies) {
+                if (abs(p.getPosY()-e.getPosY()) < 0.5 && abs(p.getPosX()-e.getPosX()) < 0.5) {
+                    e.setHp(e.getHp()-player.getAttackDamage());
+                    if (e.getHp() <= 0) {
+                        killEnemy(e);
+                        enemiesToRemove.add(e);
+                    }
+                    projectilesToRemove.add(p);
+                }
+            }
+        }
+        player.getProjectiles().removeAll(projectilesToRemove);
+        enemies.removeAll(enemiesToRemove);
+        for (Enemy e : enemies) {
+            for (Projectile p : e.getProjectiles()) {
+                // check hits
+            }
+        }
+    }
 
+    public void checkItemPickUp() {
+        for (Item item : items) {
+            if (item.getPosX() >0) {
+                // do something
+            }
+        }
+    }
+
+    public void killEnemy(Enemy enemy) {
+        Item item;
+        enemy.setDead(true);
+        switch (enemy.getDrop()) {
+            case "coin":
+                item = new Coin(enemy.getPosX(), enemy.getPosY());
+                items.add(item);
+                break;
+            case "potion":
+                item = new HealingPotion(enemy.getPosX(), enemy.getPosY());
+                items.add(item);
+                break;
+            case "key":
+                item = new Key(enemy.getPosX(), enemy.getPosY());
+                items.add(item);
+                break;
+        }
     }
 
     public Board getBoard() {
@@ -196,5 +253,22 @@ public class Model {
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public boolean allEnemiesDead() {
+        for (Enemy e : enemies) {
+            if (!e.isDead()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void savePlayerData() {
+
     }
 }

@@ -1,7 +1,6 @@
 package cz.cvut.fel.pjv.game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cz.cvut.fel.pjv.game.model.Block;
 import cz.cvut.fel.pjv.game.model.Model;
 import cz.cvut.fel.pjv.game.view.View;
 import javafx.animation.AnimationTimer;
@@ -22,6 +21,8 @@ public class Controller extends Application {
     private final int FPS = 120;
     private final double timePerFrame = 1000000000.0 / FPS;
     private AnimationTimer gameLoop;
+    private boolean paused = true;
+    private boolean started = false;
 
     public static void main(String[] args) {
         launch();
@@ -35,14 +36,25 @@ public class Controller extends Application {
         view = new View(stage, model, this);
         view.showStartMenu();
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if ("wasd".contains(key.getCode().toString().toLowerCase())) {
-                model.movePlayer(key.getText().toLowerCase().charAt(0));
+            if (started && !paused) {
+                if ("wasd".contains(key.getCode().toString().toLowerCase())) {
+                    model.movePlayer(key.getText().toLowerCase().charAt(0));
+                }
             }
         });
         stage.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             String letter = key.getCode().toString().toLowerCase();
             if (("w".equals(letter) && model.getPlayer().getFacing().equals("up")) || ("a".equals(letter) && model.getPlayer().getFacing().equals("left")) || ("s".equals(letter) && model.getPlayer().getFacing().equals("down")) || ("d".equals(letter) && model.getPlayer().getFacing().equals("right"))) {
                 model.stopPlayer();
+            }
+        });
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            if (key.getCode()==KeyCode.ESCAPE) {
+                if (!paused) {
+                    pauseGame();
+                } else if (started) {
+                    resumeGame();
+                }
             }
         });
         gameLoop = new AnimationTimer() {
@@ -56,7 +68,6 @@ public class Controller extends Application {
                 }
             }
         };
-        gameLoop.start();
     }
 
     private GameData loadGameData() throws IOException {
@@ -74,4 +85,30 @@ public class Controller extends Application {
         model.update();
     }
 
+    public void startGameLoop() {
+        gameLoop.start();
+        paused = false;
+        started = true;
+    }
+
+    public void pauseGame() {
+        gameLoop.stop();
+        paused = true;
+    }
+
+    public void resumeGame() {
+        gameLoop.start();
+        paused = false;
+    }
+
+    public void gameOver() {
+        gameLoop.stop();
+        view.badEnd();
+    }
+
+    public void ggwp() {
+        gameLoop.stop();
+        model.savePlayerData();
+        view.goodEnd();
+    }
 }

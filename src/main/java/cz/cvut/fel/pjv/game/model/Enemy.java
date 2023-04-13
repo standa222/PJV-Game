@@ -53,25 +53,25 @@ public class Enemy {
         int rand = random.nextInt(7);
         switch (rand) {
             case 1:
-                setMovementSpeed(0,-0.035);
+                setMovementSpeed(0, -0.035);
                 break;
             case 2:
                 setMovementSpeed(0, 0.035);
                 break;
             case 3:
-                setMovementSpeed(0.035,0);
+                setMovementSpeed(0.035, 0);
                 break;
             case 4:
-                setMovementSpeed(-0.035,0);
+                setMovementSpeed(-0.035, 0);
                 break;
             default:
-                setMovementSpeed(0,0);
+                setMovementSpeed(0, 0);
         }
     }
 
     public void shoot(String projectileDirection) {
         shootingCounter++;
-        if (shootingCounter > 120/attackSpeed) {
+        if (shootingCounter > 120 / attackSpeed) {
             Projectile p = new Projectile(posX, posY, this.getClass(), projectileDirection, 0.1);
             projectiles.add(p);
             shootingCounter = 0;
@@ -95,11 +95,27 @@ public class Enemy {
         this.hp = hp;
     }
 
+    public int getHp() {
+        return hp;
+    }
+
     public double[] getMovementSpeed() {
         return movementSpeed;
     }
 
     public void setMovementSpeed(double speedX, double speedY) {
         movementSpeed = new double[]{speedX, speedY};
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead(boolean dead) {
+        isDead = dead;
+    }
+
+    public String getDrop() {
+        return drop;
     }
 }

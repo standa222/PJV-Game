@@ -1,8 +1,14 @@
 package cz.cvut.fel.pjv.game.model;
 
-public class Key implements Item {
+public class Key extends Item {
+
+
+    public Key(double posX, double posY) {
+        super(posX, posY);
+    }
+
     @Override
-    public void pickUpItem() {
+    public void pickUp() {
 
     }
 }

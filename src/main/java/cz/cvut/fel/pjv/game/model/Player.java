@@ -9,24 +9,24 @@ public class Player {
     private int hp;
     private int attackDamage;
     private double attackSpeed;
-    private double critChance;
     private double movementSpeed;
     private String facing;
     private ArrayList<Projectile> projectiles;
     private ArrayList<Item> inventory;
+    private boolean isDead;
 
     private int shootingCounter = 0;
 
-    public Player(double posX, double posY, int max_hp, int hp, int attackDamage, double attackSpeed, double critChance, String facing) {
+    public Player(double posX, double posY, int max_hp, int hp, int attackDamage, double attackSpeed, String facing) {
         this.posX = posX;
         this.posY = posY;
         this.max_hp = max_hp;
         this.hp = hp;
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
-        this.critChance = critChance;
         this.facing = facing;
         projectiles = new ArrayList<>();
+        isDead = false;
     }
 
     public void moveUp() {
@@ -90,6 +90,10 @@ public class Player {
         this.posY = posY;
     }
 
+    public int getAttackDamage() {
+        return attackDamage;
+    }
+
     public ArrayList<Projectile> getProjectiles() {
         return projectiles;
     }
@@ -104,5 +108,13 @@ public class Player {
 
     public void setMovementSpeed(double movementSpeed) {
         this.movementSpeed = movementSpeed;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void heal(int healValue) {
+        hp += healValue;
     }
 }
