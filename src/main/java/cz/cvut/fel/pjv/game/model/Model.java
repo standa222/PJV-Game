@@ -12,13 +12,17 @@ public class Model {
     private final ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
     private Board board;
+    private int boardWidth;
+    private int boardHeight;
     private Controller controller;
     public Model(GameData data, Controller controller) {
         player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), data.getPlayer()[6]);
         for (int i = 0; i < data.getEnemies().length; i++) {
             enemies.add(new Enemy(Integer.parseInt(data.getEnemies()[i][0]), Integer.parseInt(data.getEnemies()[i][1]),Integer.parseInt(data.getEnemies()[i][2]),Integer.parseInt(data.getEnemies()[i][3]),Double.parseDouble(data.getEnemies()[i][4]), data.getEnemies()[i][5]));
         }
-        board = new Board(data.getBoardWidth(), data.getBoardHeight(), data.getBoard());
+        boardWidth = data.getBoard()[0].length;
+        boardHeight = data.getBoard().length;
+        board = new Board(data.getBoard()[0].length, data.getBoard().length, data.getBoard());
         this.controller = controller;
     }
 
@@ -106,15 +110,15 @@ public class Model {
             e.shoot(directionToPlayer(e));
             if (e.getPosX()+e.getMovementSpeed()[0] <= 1) {
                 e.setPosX(1);
-            } else if (e.getPosX()+e.getMovementSpeed()[0] >= 20) {
-                e.setPosX(20);
+            } else if (e.getPosX()+e.getMovementSpeed()[0] >= boardWidth) {
+                e.setPosX(boardWidth);
             } else {
                 e.setPosX(e.getPosX() + e.getMovementSpeed()[0]);
             }
             if (e.getPosY()+e.getMovementSpeed()[1] <= 1) {
                 e.setPosY(1);
-            } else if (e.getPosY()+e.getMovementSpeed()[1] >= 16) {
-                e.setPosY(16);
+            } else if (e.getPosY()+e.getMovementSpeed()[1] >= boardHeight) {
+                e.setPosY(boardHeight);
             } else {
                 e.setPosY(e.getPosY() + e.getMovementSpeed()[1]);
             }
@@ -159,13 +163,13 @@ public class Model {
                     break;
                 case "down":
                     p.setPosY(p.getPosY()+p.getSpeed());
-                    if (p.getPosY()>17) {
+                    if (p.getPosY()>(boardHeight+1)) {
                         toBeRemoved.add(p);
                     }
                     break;
                 case "right":
                     p.setPosX(p.getPosX()+p.getSpeed());
-                    if (p.getPosX()>21) {
+                    if (p.getPosX()>(boardWidth+1)) {
                         toBeRemoved.add(p);
                     }
                     break;
@@ -192,13 +196,13 @@ public class Model {
                         break;
                     case "down":
                         p.setPosY(p.getPosY() + p.getSpeed());
-                        if (p.getPosY()>17) {
+                        if (p.getPosY()>(boardHeight+1)) {
                             toBeRemoved.add(p);
                         }
                         break;
                     case "right":
                         p.setPosX(p.getPosX() + p.getSpeed());
-                        if (p.getPosX()>21) {
+                        if (p.getPosX()>(boardWidth+1)) {
                             toBeRemoved.add(p);
                         }
                         break;
@@ -312,5 +316,13 @@ public class Model {
      */
     public void savePlayerData() {
         // TODO
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+
+    public int getBoardHeight() {
+        return boardHeight;
     }
 }

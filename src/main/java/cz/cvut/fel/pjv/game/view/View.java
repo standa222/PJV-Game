@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,22 +18,23 @@ import javafx.scene.shape.Rectangle;
 import java.util.HashMap;
 
 public class View {
-    private Canvas canvas;
-    private int sceneWidth = 1000;
-    private int sceneHeight = 800;
+    private int BLOCK_SIZE = 50;
+    private int sceneWidth;
+    private int sceneHeight;
     private final Stage stage;
     private Model model;
     private HashMap<Integer,Color> colorMap;
-    private int BLOCK_SIZE = 50;
     private final Controller controller;
 
     public View(Stage stage, Model model, Controller controller) {
         this.stage = stage;
         this.model = model;
         colorMap = new HashMap<>();
-        colorMap.put(0, Color.GREEN);
-        colorMap.put(1, Color.DARKGRAY);
-        colorMap.put(2, Color.BLUE);
+        sceneWidth = BLOCK_SIZE * model.getBoardWidth();
+        sceneHeight = BLOCK_SIZE * model.getBoardHeight();
+        colorMap.put(6, Color.rgb(44,229,80));
+        colorMap.put(1, Color.rgb(150,150,150));
+        colorMap.put(3, Color.rgb(63,111,233));
         this.controller = controller;
     }
 
@@ -61,7 +61,7 @@ public class View {
         root.getChildren().add(stackPane);
 
         Scene startScene = new Scene(root, sceneWidth, sceneHeight);
-        stage.setTitle("Menu hry");
+        stage.setTitle("GAME");
         stage.setScene(startScene);
         stage.setResizable(false);
         stage.show();

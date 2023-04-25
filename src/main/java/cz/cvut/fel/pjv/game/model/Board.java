@@ -1,7 +1,6 @@
 package cz.cvut.fel.pjv.game.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Board {
     private int width;
@@ -16,22 +15,10 @@ public class Board {
         blocks = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                Block block = new Block(i, j, blockMap[j][i],true, true);
+                Block block = new Block(i, j, blockMap[j][i],assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
                 blocks.add(block);
             }
         }
-    }
-
-    public int[][] getBlockMap() {
-        return blockMap;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public ArrayList<Block> getBlocks() {
@@ -45,5 +32,13 @@ public class Board {
             }
         }
         return new Block(-1,-1,-1, true,true);
+    }
+
+    private boolean assignWalkThrough(int number) {
+        return number%2==0;
+    }
+
+    private boolean assignShootThrough(int number) {
+        return number%3==0;
     }
 }
