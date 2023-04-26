@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78308364-a2af-4993-aade-c351a9914a87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/GameData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/GameData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/init.json" afterDir="false" />
     </list>
@@ -46,24 +47,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/stanislav/Documents/sem2/PJV/semestralka/playground",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/stanislav/Documents/sem2/PJV/semestralka/playground&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="cz.cvut.fel.pjv.game" />
@@ -105,7 +106,10 @@
       <workItem from="1681561997386" duration="1021000" />
       <workItem from="1681798821098" duration="626000" />
       <workItem from="1681799854483" duration="19000" />
-      <workItem from="1682404060215" duration="7437000" />
+      <workItem from="1682404060215" duration="7579000" />
+      <workItem from="1682434490735" duration="6046000" />
+      <workItem from="1682494868834" duration="2664000" />
+      <workItem from="1682512583535" duration="7495000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, classes added">
       <created>1680962202223</created>
@@ -156,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681411004190</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Level edited, loading from config file edited (data inconsistency for board size prevented)">
+      <created>1682411676961</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1682411676961</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,7 +182,9 @@
     <MESSAGE value="Enemy movement and shooting implemented" />
     <MESSAGE value="Half of hit check implemented, items added" />
     <MESSAGE value="Final commit before the first documentation deadline (14.4.), JavaDoc comments to some methods added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Final commit before the first documentation deadline (14.4.), JavaDoc comments to some methods added." />
+    <MESSAGE value="Level edited, loading from config file edited (data inconsistency prevented)" />
+    <MESSAGE value="Level edited, loading from config file edited (data inconsistency for board size prevented)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Level edited, loading from config file edited (data inconsistency for board size prevented)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

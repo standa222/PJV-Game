@@ -5,14 +5,28 @@ public class Projectile {
     private double posY;
     private Class source;
     private String direction;
-    private double speed;
+    private double speed[];
+    private double maxSpeed = 0.1;
 
-    public Projectile(double posX, double posY, Class source, String direction, double speed) {
+    public Projectile(double posX, double posY, Class source, String direction) {
         this.posX = posX;
         this.posY = posY;
         this.source = source;
         this.direction = direction;
-        this.speed = speed;
+        switch (direction) {
+            case "up":
+                speed = new double[]{ 0, -maxSpeed};
+                break;
+            case "down":
+                speed = new double[] {0, maxSpeed};
+                break;
+            case "left":
+                speed = new double[] {-maxSpeed, 0};
+                break;
+            case "right":
+                speed = new double[] {maxSpeed, 0};
+                break;
+        }
     }
 
     public double getPosX() {
@@ -35,7 +49,7 @@ public class Projectile {
         return direction;
     }
 
-    public double getSpeed() {
+    public double[] getSpeed() {
         return speed;
     }
 }

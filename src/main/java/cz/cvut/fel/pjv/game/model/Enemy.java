@@ -72,7 +72,7 @@ public class Enemy {
     public void shoot(String projectileDirection) {
         shootingCounter++;
         if (shootingCounter > 120 / attackSpeed) {
-            Projectile p = new Projectile(posX, posY, this.getClass(), projectileDirection, 0.1);
+            Projectile p = new Projectile(posX, posY, this.getClass(), projectileDirection);
             projectiles.add(p);
             shootingCounter = 0;
         }

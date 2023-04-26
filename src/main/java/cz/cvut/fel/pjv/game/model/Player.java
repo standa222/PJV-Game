@@ -9,7 +9,8 @@ public class Player {
     private int hp;
     private int attackDamage;
     private double attackSpeed;
-    private double movementSpeed;
+    private double maxMovementSpeed;
+    private double[] movementSpeed;
     private String facing;
     private ArrayList<Projectile> projectiles;
     private ArrayList<Item> inventory;
@@ -17,58 +18,24 @@ public class Player {
 
     private int shootingCounter = 0;
 
-    public Player(double posX, double posY, int max_hp, int hp, int attackDamage, double attackSpeed, String facing) {
+    public Player(double posX, double posY, int max_hp, int hp, int attackDamage, double attackSpeed, double maxMovementSpeed, String facing) {
         this.posX = posX;
         this.posY = posY;
         this.max_hp = max_hp;
         this.hp = hp;
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
+        this.maxMovementSpeed = maxMovementSpeed;
+        movementSpeed = new double[]{0,0};
         this.facing = facing;
         projectiles = new ArrayList<>();
         isDead = false;
     }
 
-    public void moveUp() {
-        facing = "up";
-        if (posY <= 1) {
-            posY = 1;
-        } else {
-            movementSpeed = 0.05;
-        }
-    }
-
-    public void moveDown() {
-        facing = "down";
-        if (posY >= 16) {
-            posY = 16;
-        } else {
-            movementSpeed = 0.05;
-        }
-    }
-
-    public void moveRight() {
-        facing = "right";
-        if (posX >= 20) {
-            posX = 20;
-        } else {
-            movementSpeed = 0.05;
-        }
-    }
-
-    public void moveLeft() {
-        facing = "left";
-        if (posX <= 1) {
-            posX = 1;
-        } else {
-            movementSpeed = 0.05;
-        }
-    }
-
     public void shoot() {
         shootingCounter++;
         if (shootingCounter > 120/attackSpeed) {
-            Projectile p = new Projectile(posX, posY, this.getClass(), facing, 0.1);
+            Projectile p = new Projectile(posX, posY, this.getClass(), facing);
             projectiles.add(p);
             shootingCounter = 0;
         }
@@ -102,12 +69,24 @@ public class Player {
         return facing;
     }
 
-    public double getMovementSpeed() {
+    public void setFacing(String facing) {
+        this.facing = facing;
+    }
+
+    public double getMaxMovementSpeed() {
+        return maxMovementSpeed;
+    }
+
+    public void setMaxMovementSpeed(double maxMovementSpeed) {
+        this.maxMovementSpeed = maxMovementSpeed;
+    }
+
+    public double[] getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(double movementSpeed) {
-        this.movementSpeed = movementSpeed;
+    public void setMovementSpeed(double speedX, double speedY) {
+        this.movementSpeed = new double[]{speedX, speedY};
     }
 
     public boolean isDead() {

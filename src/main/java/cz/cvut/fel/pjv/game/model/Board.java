@@ -15,7 +15,7 @@ public class Board {
         blocks = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                Block block = new Block(i, j, blockMap[j][i],assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
+                Block block = new Block(i+1, j+1, blockMap[j][i],assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
                 blocks.add(block);
             }
         }
@@ -27,7 +27,7 @@ public class Board {
 
     public Block getBlock(int x, int y) {
         for (Block b : blocks) {
-            if (b.getX()==x-1 && b.getY()==y-1) {
+            if (b.getX()==x && b.getY()==y) {
                 return b;
             }
         }

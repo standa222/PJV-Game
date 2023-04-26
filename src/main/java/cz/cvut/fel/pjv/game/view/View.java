@@ -82,7 +82,7 @@ public class View {
 
     public void drawBoard(Pane pane) {
         for (Block block : model.getBoard().getBlocks()) {
-            Rectangle r = new Rectangle(block.getX()*BLOCK_SIZE, block.getY()*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            Rectangle r = new Rectangle((block.getX()-1)*BLOCK_SIZE, (block.getY()-1)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             r.setFill(colorMap.get(block.getValue()));
             pane.getChildren().add(r);
         }

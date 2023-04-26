@@ -6,17 +6,20 @@ import cz.cvut.fel.pjv.game.GameData;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.signum;
 
 public class Model {
     private final Player player;
     private final ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
-    private Board board;
-    private int boardWidth;
-    private int boardHeight;
+    private final Board board;
+    private final int boardWidth;
+    private final int boardHeight;
+
+    private int helperCounter = 0; // DELETE
     private Controller controller;
     public Model(GameData data, Controller controller) {
-        player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), data.getPlayer()[6]);
+        player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), Double.parseDouble(data.getPlayer()[6]), data.getPlayer()[7]);
         for (int i = 0; i < data.getEnemies().length; i++) {
             enemies.add(new Enemy(Integer.parseInt(data.getEnemies()[i][0]), Integer.parseInt(data.getEnemies()[i][1]),Integer.parseInt(data.getEnemies()[i][2]),Integer.parseInt(data.getEnemies()[i][3]),Double.parseDouble(data.getEnemies()[i][4]), data.getEnemies()[i][5]));
         }
@@ -33,34 +36,32 @@ public class Model {
     public void movePlayer(char c) {
         switch (c) {
             case 'w':
-                if (board.getBlock((int) player.getPosX(), (int) (player.getPosY()-1)).isWalkThrough()) {
-                    player.moveUp();
-                }
+                player.setFacing("up");
+                player.setMovementSpeed(0,-player.getMaxMovementSpeed());
                 break;
             case 'a':
-                if (board.getBlock((int) (player.getPosX()-1), (int) player.getPosY()).isWalkThrough()) {
-                    player.moveLeft();
-                }
+                player.setFacing("left");
+                player.setMovementSpeed(-player.getMaxMovementSpeed(),0);
                 break;
             case 's':
-                if (board.getBlock((int) player.getPosX(), (int) (player.getPosY()+1)).isWalkThrough()) {
-                    player.moveDown();
-                }
+                player.setFacing("down");
+                player.setMovementSpeed(0,player.getMaxMovementSpeed());
                 break;
             case 'd':
-                if (board.getBlock((int)player.getPosX()+1, (int) player.getPosY()).isWalkThrough()) {
-                    player.moveRight();
-                }
+                player.setFacing("right");
+                player.setMovementSpeed(player.getMaxMovementSpeed(), 0);
                 break;
             default:
         }
+        //Block nextBlock = board.getBlock((int)Math.round(player.getPosX()+player.getMovementSpeed()[0]+1*signum(player.getMovementSpeed()[0])), (int)Math.round(player.getPosY()+player.getMovementSpeed()[1]+1*signum(player.getMovementSpeed()[1])));
+        //System.out.println("Next Block X: " + nextBlock.getX() + "   Y: " + nextBlock.getY() + "  can be walked on? " + nextBlock.isWalkThrough());
     }
 
     /**
      * Stop player movement.
      */
     public void stopPlayer() {
-        player.setMovementSpeed(0);
+        player.setMovementSpeed(0,0);
     }
 
     /**
@@ -77,6 +78,7 @@ public class Model {
             updateProjectiles();
             checkHits();
             checkItemPickUp();
+            helperFunctionToBeDeleted();
         }
     }
 
@@ -84,22 +86,64 @@ public class Model {
      * Advances the state of player
      */
     public void updatePlayer() {
-        double playerSpeed = player.getMovementSpeed();
-        switch (player.getFacing()) {
-            case "up":
-                player.setPosY(player.getPosY()-playerSpeed);
-                break;
-            case "down":
-                player.setPosY(player.getPosY()+playerSpeed);
-                break;
-            case "right":
-                player.setPosX(player.getPosX()+playerSpeed);
-                break;
-            case "left":
-                player.setPosX(player.getPosX()-playerSpeed);
-                break;
+        Block nextBlock = board.getBlock((int) Math.round(player.getPosX()+1*signum(player.getMovementSpeed()[0])), (int) Math.round(player.getPosY()+1*signum(player.getMovementSpeed()[1])));
+        Block thisBlock = board.getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
+        if (nextBlock.isWalkThrough()) {
+            if (player.getMovementSpeed()[0]!=0) {
+                if ((signum(player.getMovementSpeed()[0]) * (player.getPosX() - thisBlock.getX()) > 0) && (!board.getBlock(nextBlock.getX(), (int) (nextBlock.getY()+1*signum(player.getPosY()- thisBlock.getY()))).isWalkThrough())) {
+                    player.setPosX(player.getPosX());
+                } else {
+                    player.setPosX(player.getPosX() + player.getMovementSpeed()[0]);
+                }
+            }
+            if (player.getMovementSpeed()[1]!=0) {
+                if ((signum(player.getMovementSpeed()[1]) * (player.getPosY() - thisBlock.getY()) > 0) && (!board.getBlock((int) (nextBlock.getX()+1*signum(player.getPosX()- thisBlock.getX())), nextBlock.getY()).isWalkThrough())) {
+                    player.setPosY(player.getPosY());
+                } else {
+                    player.setPosY(player.getPosY() + player.getMovementSpeed()[1]);
+                }
+            }
+        } else {
+            if (player.getMovementSpeed()[0] != 0) {
+                if ((signum(player.getMovementSpeed()[0]) * (player.getPosX() - thisBlock.getX()) > 0)) {
+                    player.setPosX(thisBlock.getX());
+                } else {
+                    player.setPosX(player.getPosX() + player.getMovementSpeed()[0]);
+                }
+            }
+            if (player.getMovementSpeed()[1]!=0) {
+                if (signum(player.getMovementSpeed()[1]) * (player.getPosY() - thisBlock.getY()) > 0) {
+                    player.setPosY(thisBlock.getY());
+                } else {
+                    player.setPosY(player.getPosY() + player.getMovementSpeed()[1]);
+                }
+            }
+        }
+        if (player.getPosX() < 1) {
+            player.setPosX(1);
+        }
+        if (player.getPosX() > boardWidth) {
+            player.setPosX(boardWidth);
+        }
+        if (player.getPosY() < 1) {
+            player.setPosY(1);
+        }
+        if (player.getPosY() > boardHeight) {
+            player.setPosY(boardHeight);
         }
         player.shoot();
+    }
+
+    public void helperFunctionToBeDeleted() {
+        helperCounter++;
+        if (helperCounter > 120) {
+            Block thisBlock = board.getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
+            System.out.println("Player X: " + String.format("%.2f",player.getPosX()) + " Y: " + String.format("%.2f",player.getPosY()));
+            System.out.println("This Block X: " + thisBlock.getX() + " Y: " + thisBlock.getY());
+            //System.out.println(thisBlock.getValue());
+            //System.out.println();
+            helperCounter = 0;
+        }
     }
 
     /**
@@ -108,19 +152,50 @@ public class Model {
     public void updateEnemies() {
         for (Enemy e : enemies) {
             e.shoot(directionToPlayer(e));
-            if (e.getPosX()+e.getMovementSpeed()[0] <= 1) {
-                e.setPosX(1);
-            } else if (e.getPosX()+e.getMovementSpeed()[0] >= boardWidth) {
-                e.setPosX(boardWidth);
+            Block nextBlock = board.getBlock((int) Math.round(e.getPosX()+1*signum(e.getMovementSpeed()[0])), (int) Math.round(e.getPosY()+1*signum(e.getMovementSpeed()[1])));
+            Block thisBlock = board.getBlock((int) Math.round(e.getPosX()), (int) Math.round(e.getPosY()));
+            if (nextBlock.isWalkThrough()) {
+                if (e.getMovementSpeed()[0]!=0) {
+                    if ((signum(e.getMovementSpeed()[0]) * (e.getPosX() - thisBlock.getX()) > 0) && (!board.getBlock(nextBlock.getX(), (int) (nextBlock.getY()+1*signum(e.getPosY()- thisBlock.getY()))).isWalkThrough())) {
+                        e.setPosX(e.getPosX());
+                    } else {
+                        e.setPosX(e.getPosX() + e.getMovementSpeed()[0]);
+                    }
+                }
+                if (e.getMovementSpeed()[1]!=0) {
+                    if ((signum(e.getMovementSpeed()[1]) * (e.getPosY() - thisBlock.getY()) > 0) && (!board.getBlock((int) (nextBlock.getX()+1*signum(e.getPosX()- thisBlock.getX())), nextBlock.getY()).isWalkThrough())) {
+                        e.setPosY(e.getPosY());
+                    } else {
+                        e.setPosY(e.getPosY() + e.getMovementSpeed()[1]);
+                    }
+                }
             } else {
-                e.setPosX(e.getPosX() + e.getMovementSpeed()[0]);
+                if (e.getMovementSpeed()[0] != 0) {
+                    if ((signum(e.getMovementSpeed()[0]) * (e.getPosX() - thisBlock.getX()) > 0)) {
+                        e.setPosX(thisBlock.getX());
+                    } else {
+                        e.setPosX(e.getPosX() + e.getMovementSpeed()[0]);
+                    }
+                }
+                if (e.getMovementSpeed()[1]!=0) {
+                    if (signum(e.getMovementSpeed()[1]) * (e.getPosY() - thisBlock.getY()) > 0) {
+                        e.setPosY(thisBlock.getY());
+                    } else {
+                        e.setPosY(e.getPosY() + e.getMovementSpeed()[1]);
+                    }
+                }
             }
-            if (e.getPosY()+e.getMovementSpeed()[1] <= 1) {
+            if (e.getPosX() < 1) {
+                e.setPosX(1);
+            }
+            if (e.getPosX() > boardWidth) {
+                e.setPosX(boardWidth);
+            }
+            if (e.getPosY() < 1) {
                 e.setPosY(1);
-            } else if (e.getPosY()+e.getMovementSpeed()[1] >= boardHeight) {
+            }
+            if (e.getPosY() > boardHeight) {
                 e.setPosY(boardHeight);
-            } else {
-                e.setPosY(e.getPosY() + e.getMovementSpeed()[1]);
             }
             e.update();
         }
@@ -154,31 +229,11 @@ public class Model {
     public void updateProjectiles() {
         ArrayList<Projectile> toBeRemoved = new ArrayList<>();
         for (Projectile p : player.getProjectiles()) {
-            switch (p.getDirection()) {
-                case "up":
-                    p.setPosY(p.getPosY()-p.getSpeed());
-                    if (p.getPosY()<0) {
-                        toBeRemoved.add(p);
-                    }
-                    break;
-                case "down":
-                    p.setPosY(p.getPosY()+p.getSpeed());
-                    if (p.getPosY()>(boardHeight+1)) {
-                        toBeRemoved.add(p);
-                    }
-                    break;
-                case "right":
-                    p.setPosX(p.getPosX()+p.getSpeed());
-                    if (p.getPosX()>(boardWidth+1)) {
-                        toBeRemoved.add(p);
-                    }
-                    break;
-                case "left":
-                    p.setPosX(p.getPosX()-p.getSpeed());
-                    if (p.getPosX()<0) {
-                        toBeRemoved.add(p);
-                    }
-                    break;
+            p.setPosX(p.getPosX()+p.getSpeed()[0]);
+            p.setPosY(p.getPosY()+p.getSpeed()[1]);
+            Block nextBlock = board.getBlock((int) Math.round(p.getPosX()+0.01*signum(p.getSpeed()[0])), (int) Math.round(p.getPosY()+0.01*signum(p.getSpeed()[1])));
+            if (p.getPosX()>boardWidth || p.getPosX()<0 || p.getPosY()>boardHeight || p.getPosY()<0 || !nextBlock.isShootThrough()) {
+                toBeRemoved.add(p);
             }
         }
         for (Projectile p : toBeRemoved) {
@@ -187,31 +242,11 @@ public class Model {
         for (Enemy e : enemies) {
             toBeRemoved = new ArrayList<>();
             for (Projectile p : e.getProjectiles()) {
-                switch (p.getDirection()) {
-                    case "up":
-                        p.setPosY(p.getPosY() - p.getSpeed());
-                        if (p.getPosY()<0) {
-                            toBeRemoved.add(p);
-                        }
-                        break;
-                    case "down":
-                        p.setPosY(p.getPosY() + p.getSpeed());
-                        if (p.getPosY()>(boardHeight+1)) {
-                            toBeRemoved.add(p);
-                        }
-                        break;
-                    case "right":
-                        p.setPosX(p.getPosX() + p.getSpeed());
-                        if (p.getPosX()>(boardWidth+1)) {
-                            toBeRemoved.add(p);
-                        }
-                        break;
-                    case "left":
-                        p.setPosX(p.getPosX() - p.getSpeed());
-                        if (p.getPosX()<0) {
-                            toBeRemoved.add(p);
-                        }
-                        break;
+                p.setPosX(p.getPosX()+p.getSpeed()[0]);
+                p.setPosY(p.getPosY()+p.getSpeed()[1]);
+                Block nextBlock = board.getBlock((int) Math.round(p.getPosX()+0.01*signum(p.getSpeed()[0])), (int) Math.round(p.getPosY()+0.01*signum(p.getSpeed()[1])));
+                if (p.getPosX()>boardWidth || p.getPosX()<0 || p.getPosY()>boardHeight || p.getPosY()<0 || !nextBlock.isShootThrough()) {
+                    toBeRemoved.add(p);
                 }
             }
             for (Projectile p : toBeRemoved) {
