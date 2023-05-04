@@ -30,7 +30,6 @@ public class Controller extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        LOGGER.setLevel(Level.FINEST);
         LOGGER.info("starting game");
         model = new Model(loadGameData(), this);
         view = new View(stage, model, this);
@@ -39,6 +38,10 @@ public class Controller extends Application {
             if (started && !paused) {
                 if ("wasd".contains(key.getCode().toString().toLowerCase())) {
                     model.movePlayer(key.getText().toLowerCase().charAt(0));
+                }
+                if (key.getText().equals("u")) {  // DELETE !!!
+                    System.out.println("upgrade");
+                    upgrade();
                 }
             }
         });
@@ -79,7 +82,7 @@ public class Controller extends Application {
     private GameData loadGameData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         GameData readData = objectMapper.readValue(new File("src/main/resources/init.json"), GameData.class);
-        LOGGER.log(Level.FINE, "config file succesfully loaded");
+        LOGGER.info("Configuration file loaded");
         return readData;
     }
 
@@ -112,9 +115,18 @@ public class Controller extends Application {
         view.badEnd();
     }
 
+    public void allDead() {
+        view.endButton();
+    }
+
     public void ggwp() {
         gameLoop.stop();
         model.savePlayerData();
         view.goodEnd();
+    }
+
+    public void upgrade() {
+        pauseGame();
+        view.upgrade();
     }
 }

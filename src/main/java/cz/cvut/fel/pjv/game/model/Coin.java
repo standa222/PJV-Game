@@ -10,6 +10,13 @@ public class Coin extends Item {
 
     @Override
     public void pickUp() {
+    }
 
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

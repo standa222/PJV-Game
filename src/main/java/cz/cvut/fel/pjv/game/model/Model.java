@@ -17,7 +17,7 @@ public class Model {
     private final int boardHeight;
 
     private int helperCounter = 0; // DELETE
-    private Controller controller;
+    private final Controller controller;
     public Model(GameData data, Controller controller) {
         player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), Double.parseDouble(data.getPlayer()[6]), data.getPlayer()[7]);
         for (int i = 0; i < data.getEnemies().length; i++) {
@@ -30,31 +30,30 @@ public class Model {
     }
 
     /**
-     * Call correct move function based on pressed key.
-     * @param c
+     * Face player and set movement speed correct way based on pressed key.
+     * @param c is the pressed key
      */
     public void movePlayer(char c) {
         switch (c) {
-            case 'w':
+            case 'w' -> {
                 player.setFacing("up");
-                player.setMovementSpeed(0,-player.getMaxMovementSpeed());
-                break;
-            case 'a':
+                player.setMovementSpeed(0, -player.getMaxMovementSpeed());
+            }
+            case 'a' -> {
                 player.setFacing("left");
-                player.setMovementSpeed(-player.getMaxMovementSpeed(),0);
-                break;
-            case 's':
+                player.setMovementSpeed(-player.getMaxMovementSpeed(), 0);
+            }
+            case 's' -> {
                 player.setFacing("down");
-                player.setMovementSpeed(0,player.getMaxMovementSpeed());
-                break;
-            case 'd':
+                player.setMovementSpeed(0, player.getMaxMovementSpeed());
+            }
+            case 'd' -> {
                 player.setFacing("right");
                 player.setMovementSpeed(player.getMaxMovementSpeed(), 0);
-                break;
-            default:
+            }
+            default -> {
+            }
         }
-        //Block nextBlock = board.getBlock((int)Math.round(player.getPosX()+player.getMovementSpeed()[0]+1*signum(player.getMovementSpeed()[0])), (int)Math.round(player.getPosY()+player.getMovementSpeed()[1]+1*signum(player.getMovementSpeed()[1])));
-        //System.out.println("Next Block X: " + nextBlock.getX() + "   Y: " + nextBlock.getY() + "  can be walked on? " + nextBlock.isWalkThrough());
     }
 
     /**
@@ -71,14 +70,13 @@ public class Model {
         if (player.isDead()) {
             controller.gameOver();
         } else if (allEnemiesDead()) {
-            controller.ggwp();
+            controller.allDead();
         } else {
             updatePlayer();
             updateEnemies();
             updateProjectiles();
             checkHits();
             checkItemPickUp();
-            helperFunctionToBeDeleted();
         }
     }
 
@@ -132,18 +130,6 @@ public class Model {
             player.setPosY(boardHeight);
         }
         player.shoot();
-    }
-
-    public void helperFunctionToBeDeleted() {
-        helperCounter++;
-        if (helperCounter > 120) {
-            Block thisBlock = board.getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
-            System.out.println("Player X: " + String.format("%.2f",player.getPosX()) + " Y: " + String.format("%.2f",player.getPosY()));
-            System.out.println("This Block X: " + thisBlock.getX() + " Y: " + thisBlock.getY());
-            //System.out.println(thisBlock.getValue());
-            //System.out.println();
-            helperCounter = 0;
-        }
     }
 
     /**
@@ -255,6 +241,7 @@ public class Model {
         }
     }
 
+
     /**
      * Check if any of the projectiles hit something. Player projectiles can only hurt enemies and Enemy projectiles can only hurt the player.
      */
@@ -287,8 +274,29 @@ public class Model {
      * Check if player is standing on any items on the board and should pick them up.
      */
     public void checkItemPickUp() {
+        ArrayList<Item> toBeRemoved = new ArrayList<>();
         for (Item item : items) {
-            // TODO
+            if (abs(item.getPosX()-player.getPosX()) < 0.5 && abs(item.getPosY()-player.getPosY()) < 0.5) {
+                if (!(item instanceof Key) || !(player.hasKey())) {
+                    System.out.println("pickup");
+                    player.addToInventory(item);
+                    checkUpgrade();
+                    toBeRemoved.add(item);
+                }
+            }
+        }
+        for (Item item : toBeRemoved) {
+            items.remove(item);
+        }
+    }
+
+    public void checkUpgrade() {
+        for (Item item : player.getInventory()) {
+            if (item instanceof Coin) {
+                if (((Coin) item).getValue() >= 100) {
+                    controller.upgrade();
+                }
+            }
         }
     }
 

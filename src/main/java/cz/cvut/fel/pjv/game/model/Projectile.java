@@ -4,9 +4,9 @@ public class Projectile {
     private double posX;
     private double posY;
     private Class source;
-    private String direction;
-    private double speed[];
-    private double maxSpeed = 0.1;
+    private final String direction;
+    private double[] speed;
+    private final double maxSpeed = 0.1;
 
     public Projectile(double posX, double posY, Class source, String direction) {
         this.posX = posX;
@@ -51,5 +51,9 @@ public class Projectile {
 
     public double[] getSpeed() {
         return speed;
+    }
+
+    public Class getSource() {
+        return source;
     }
 }

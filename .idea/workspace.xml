@@ -5,14 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78308364-a2af-4993-aade-c351a9914a87" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/coin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/key.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/menu.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Chest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Chest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/init.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/menu.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +115,11 @@
       <workItem from="1682404060215" duration="7579000" />
       <workItem from="1682434490735" duration="6046000" />
       <workItem from="1682494868834" duration="2664000" />
-      <workItem from="1682512583535" duration="7495000" />
+      <workItem from="1682512583535" duration="7712000" />
+      <workItem from="1683008669758" duration="6933000" />
+      <workItem from="1683044256508" duration="187000" />
+      <workItem from="1683125689449" duration="4890000" />
+      <workItem from="1683218868038" duration="3297000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, classes added">
       <created>1680962202223</created>
@@ -167,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682411676961</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Movement and shooting improvements for both players and ememies (cant walk through rocks and water, cant shoot through rocks anymore)">
+      <created>1682520227510</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682520227510</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,7 +201,8 @@
     <MESSAGE value="Final commit before the first documentation deadline (14.4.), JavaDoc comments to some methods added." />
     <MESSAGE value="Level edited, loading from config file edited (data inconsistency prevented)" />
     <MESSAGE value="Level edited, loading from config file edited (data inconsistency for board size prevented)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Level edited, loading from config file edited (data inconsistency for board size prevented)" />
+    <MESSAGE value="Movement and shooting improvements for both players and ememies (cant walk through rocks and water, cant shoot through rocks anymore)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Movement and shooting improvements for both players and ememies (cant walk through rocks and water, cant shoot through rocks anymore)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

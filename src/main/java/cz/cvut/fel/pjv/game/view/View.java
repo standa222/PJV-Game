@@ -13,18 +13,20 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import java.util.HashMap;
 
 public class View {
-    private int BLOCK_SIZE = 50;
-    private int sceneWidth;
-    private int sceneHeight;
+    private final float BLOCK_SIZE = 50;
+    private final float sceneWidth;
+    private final float sceneHeight;
     private final Stage stage;
-    private Model model;
-    private HashMap<Integer,Color> colorMap;
+    private final Model model;
+    private final HashMap<Integer,Color> colorMap;
     private final Controller controller;
+    private Pane pane;
 
     public View(Stage stage, Model model, Controller controller) {
         this.stage = stage;
@@ -52,7 +54,7 @@ public class View {
             }
         });
         ImageView menuImage = new ImageView();
-        menuImage.setImage(new Image("menu.jpeg"));
+        menuImage.setImage(new Image("menu.png"));
 
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(menuImage,startGameButton);
@@ -71,12 +73,13 @@ public class View {
      * Key method of View, draw everything and bring it on stage.
      */
     public void draw() {
-        Pane pane = new Pane();
+        pane = new Pane();
         drawBoard(pane);
         drawPlayer(pane);
         drawEnemies(pane);
         drawProjectiles(pane);
         drawItems(pane);
+        drawInventoryHP(pane);
         stage.setScene(new Scene(pane, sceneWidth, sceneHeight));
     }
 
@@ -131,6 +134,117 @@ public class View {
                 pane.getChildren().add(c);
             }
         }
+    }
+
+    public void drawInventoryHP(Pane pane) {
+        int hp = model.getPlayer().getHp();
+        int coinValue = model.getPlayer().getCoinValue();
+        ImageView hpImage = new ImageView();
+        hpImage.setImage(new Image("heart.png", 94, 0, true, false));
+        hpImage.setLayoutX(27);
+        hpImage.setLayoutY(sceneHeight-100);
+        ImageView coinImage = new ImageView();
+        coinImage.setImage(new Image("coin.png", 94, 0, true, false));
+        coinImage.setLayoutX(27);
+        coinImage.setLayoutY(sceneHeight-210);
+        Text hpText = new Text(140, sceneHeight-45, String.valueOf(hp));
+        hpText.setFont(new Font(40));
+        Text coinText = new Text(140, sceneHeight-148, String.valueOf(coinValue));
+        coinText.setFont(new Font(40));
+        if (model.getPlayer().hasKey()) {
+            ImageView keyImage = new ImageView();
+            keyImage.setImage(new Image("key.png", 94, 0, true, false));
+            keyImage.setLayoutX(27);
+            keyImage.setLayoutY(sceneHeight-270);
+            pane.getChildren().add(keyImage);
+        }
+        pane.getChildren().addAll(hpImage, coinImage, hpText, coinText);
+    }
+
+    public void upgrade() {
+        int fontSize = 20;
+        int padding = 16;
+        float minWidth = 350;
+        float minHeight = 70;
+        Button upgradeADButton = new Button("Upgrade damage");
+        upgradeADButton.setPadding(new Insets(padding));
+        upgradeADButton.setFont(new Font(fontSize));
+        upgradeADButton.setMinWidth(minWidth);
+        upgradeADButton.setMinHeight(minHeight);
+        upgradeADButton.setLayoutX((sceneWidth/4)-(minWidth/2));
+        upgradeADButton.setLayoutY((sceneHeight/4)-(minHeight/2));
+        upgradeADButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                model.getPlayer().upgradeAD();
+                controller.resumeGame();
+            }
+        });
+
+        Button upgradeASButton = new Button("Upgrade attack speed");
+        upgradeASButton.setPadding(new Insets(padding));
+        upgradeASButton.setFont(new Font(fontSize));
+        upgradeASButton.setMinWidth(minWidth);
+        upgradeADButton.setMinHeight(minHeight);
+        upgradeASButton.setLayoutX((3*sceneWidth/4)-(minWidth/2));
+        upgradeASButton.setLayoutY((sceneHeight/4)-(minHeight/2));
+        upgradeASButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                model.getPlayer().upgradeAS();
+                controller.resumeGame();
+            }
+        });
+
+        Button upgradeHPButton = new Button("Upgrade max HP");
+        upgradeHPButton.setPadding(new Insets(padding));
+        upgradeHPButton.setFont(new Font(fontSize));
+        upgradeHPButton.setMinWidth(minWidth);
+        upgradeADButton.setMinHeight(minHeight);
+        upgradeHPButton.setLayoutX((sceneWidth/4)-(minWidth/2));
+        upgradeHPButton.setLayoutY((3*sceneHeight/4)-(minHeight/2));
+        upgradeHPButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                model.getPlayer().upgradeHP();
+                controller.resumeGame();
+            }
+        });
+
+        Button upgradeMSButton = new Button("Upgrade movement speed");
+        upgradeMSButton.setPadding(new Insets(padding));
+        upgradeMSButton.setFont(new Font(fontSize));
+        upgradeMSButton.setMinWidth(minWidth);
+        upgradeADButton.setMinHeight(minHeight);
+        upgradeMSButton.setLayoutX((3*sceneWidth/4)-(minWidth/2));
+        upgradeMSButton.setLayoutY((3*sceneHeight/4)-(minHeight/2));
+        upgradeMSButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                model.getPlayer().upgradeMS();
+                model.getPlayer().getCoin().setValue(model.getPlayer().getCoinValue()-100);
+                controller.resumeGame();
+            }
+        });
+
+        pane.getChildren().addAll(upgradeADButton,upgradeASButton, upgradeHPButton, upgradeMSButton);
+    }
+
+    public void endButton() {
+        Button endButton = new Button("End level");
+        endButton.setPadding(new Insets(16));
+        endButton.setFont(new Font(20));
+        endButton.setMinWidth(350);
+        endButton.setMinHeight(70);
+        endButton.setLayoutX(sceneWidth/2 - 350/2);
+        endButton.setLayoutY(100);
+        endButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                controller.ggwp();
+            }
+        });
+
     }
 
     public void goodEnd() {

@@ -30,6 +30,7 @@ public class Player {
         this.facing = facing;
         projectiles = new ArrayList<>();
         isDead = false;
+        inventory = new ArrayList<>();
     }
 
     public void shoot() {
@@ -39,6 +40,73 @@ public class Player {
             projectiles.add(p);
             shootingCounter = 0;
         }
+    }
+
+    public void heal(int healValue) {
+        hp += healValue;
+        if (hp > max_hp) {
+            hp = max_hp;
+        }
+    }
+
+    public int getCoinValue() {
+        for (Item item : inventory) {
+            if (item instanceof Coin) {
+                return ((Coin) item).getValue();
+            }
+        }
+        return 0;
+    }
+
+    public Coin getCoin() {
+        for (Item item : inventory) {
+            if (item instanceof Coin) {
+                return (Coin) item;
+            }
+        }
+        return null;
+    }
+
+    public void addToInventory(Item item) {
+        if (item instanceof HealingPotion) {
+            heal(((HealingPotion) item).getHealValue());
+            return;
+        }
+        if (item instanceof Coin) {
+            for (Item itemInInventory : inventory) {
+                if (itemInInventory instanceof Coin) {
+                    ((Coin) itemInInventory).setValue(((Coin) itemInInventory).getValue()+((Coin) item).getValue());
+                    return;
+                }
+            }
+        }
+        inventory.add(item);
+    }
+
+    public boolean hasKey() {
+        for (Item item : inventory) {
+            if (item instanceof Key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void upgradeAD() {
+        attackDamage += 10;
+    }
+
+    public void upgradeAS() {
+        attackSpeed += 0.25;
+    }
+
+    public void upgradeHP() {
+        max_hp += 25;
+        hp += 25;
+    }
+
+    public void upgradeMS() {
+        maxMovementSpeed += 0.01;
     }
 
     public double getPosX() {
@@ -93,7 +161,11 @@ public class Player {
         return isDead;
     }
 
-    public void heal(int healValue) {
-        hp += healValue;
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    public int getHp() {
+        return hp;
     }
 }
