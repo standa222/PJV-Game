@@ -5,8 +5,7 @@ import cz.cvut.fel.pjv.game.GameData;
 
 import java.util.ArrayList;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.signum;
+import static java.lang.Math.*;
 
 public class Model {
     private final Player player;
@@ -15,8 +14,6 @@ public class Model {
     private final Board board;
     private final int boardWidth;
     private final int boardHeight;
-
-    private int helperCounter = 0; // DELETE
     private final Controller controller;
     public Model(GameData data, Controller controller) {
         player = new Player(Integer.parseInt(data.getPlayer()[0]), Integer.parseInt(data.getPlayer()[1]), Integer.parseInt(data.getPlayer()[2]), Integer.parseInt(data.getPlayer()[3]), Integer.parseInt(data.getPlayer()[4]), Double.parseDouble(data.getPlayer()[5]), Double.parseDouble(data.getPlayer()[6]), data.getPlayer()[7]);
@@ -69,8 +66,6 @@ public class Model {
     public void update() {
         if (player.isDead()) {
             controller.gameOver();
-        } else if (allEnemiesDead()) {
-            controller.allDead();
         } else {
             updatePlayer();
             updateEnemies();
@@ -86,6 +81,9 @@ public class Model {
     public void updatePlayer() {
         Block nextBlock = board.getBlock((int) Math.round(player.getPosX()+1*signum(player.getMovementSpeed()[0])), (int) Math.round(player.getPosY()+1*signum(player.getMovementSpeed()[1])));
         Block thisBlock = board.getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
+        if (nextBlock.getValue() == 5 && player.hasKey()) {
+            openChest(nextBlock);
+        }
         if (nextBlock.isWalkThrough()) {
             if (player.getMovementSpeed()[0]!=0) {
                 if ((signum(player.getMovementSpeed()[0]) * (player.getPosX() - thisBlock.getX()) > 0) && (!board.getBlock(nextBlock.getX(), (int) (nextBlock.getY()+1*signum(player.getPosY()- thisBlock.getY()))).isWalkThrough())) {
@@ -130,6 +128,16 @@ public class Model {
             player.setPosY(boardHeight);
         }
         player.shoot();
+    }
+
+    public void openChest(Block chest) {
+        Block newBlock = new Block(chest.getX(), chest.getY(), 6, true, true);
+        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (60+ random()*20));
+        player.removeKey();
+        items.add(chestCoin);
+        board.getBlocks().add(newBlock);
+        board.getBlocks().remove(chest);
+        controller.redrawBoard();
     }
 
     /**
@@ -218,26 +226,22 @@ public class Model {
             p.setPosX(p.getPosX()+p.getSpeed()[0]);
             p.setPosY(p.getPosY()+p.getSpeed()[1]);
             Block nextBlock = board.getBlock((int) Math.round(p.getPosX()+0.01*signum(p.getSpeed()[0])), (int) Math.round(p.getPosY()+0.01*signum(p.getSpeed()[1])));
-            if (p.getPosX()>boardWidth || p.getPosX()<0 || p.getPosY()>boardHeight || p.getPosY()<0 || !nextBlock.isShootThrough()) {
+            if (p.getPosX()>boardWidth+1 || p.getPosX()<0 || p.getPosY()>boardHeight+1 || p.getPosY()<0 || nextBlock.isShootThrough()) {
                 toBeRemoved.add(p);
             }
         }
-        for (Projectile p : toBeRemoved) {
-            player.getProjectiles().remove(p);
-        }
+        player.getProjectiles().removeAll(toBeRemoved);
         for (Enemy e : enemies) {
             toBeRemoved = new ArrayList<>();
             for (Projectile p : e.getProjectiles()) {
                 p.setPosX(p.getPosX()+p.getSpeed()[0]);
                 p.setPosY(p.getPosY()+p.getSpeed()[1]);
                 Block nextBlock = board.getBlock((int) Math.round(p.getPosX()+0.01*signum(p.getSpeed()[0])), (int) Math.round(p.getPosY()+0.01*signum(p.getSpeed()[1])));
-                if (p.getPosX()>boardWidth || p.getPosX()<0 || p.getPosY()>boardHeight || p.getPosY()<0 || !nextBlock.isShootThrough()) {
+                if (p.getPosX()>boardWidth+1 || p.getPosX()<0 || p.getPosY()>boardHeight+1 || p.getPosY()<0 || nextBlock.isShootThrough()) {
                     toBeRemoved.add(p);
                 }
             }
-            for (Projectile p : toBeRemoved) {
-                e.getProjectiles().remove(p);
-            }
+            e.getProjectiles().removeAll(toBeRemoved);
         }
     }
 
@@ -263,11 +267,22 @@ public class Model {
         }
         player.getProjectiles().removeAll(projectilesToRemove);
         enemies.removeAll(enemiesToRemove);
+        projectilesToRemove = new ArrayList<>();
+        /*
         for (Enemy e : enemies) {
             for (Projectile p : e.getProjectiles()) {
-                // TODO: very similar to player projectiles above
+                if (abs(p.getPosY()-player.getPosY()) < 0.5 && abs(p.getPosX()-player.getPosX()) < 0.5) {
+                    player.setHp(player.getHp()-e.getAttackDamage());
+                    if (player.getHp() <= 0) {
+                        player.kill();
+                    }
+                    projectilesToRemove.add(p);
+                }
             }
+            e.getProjectiles().removeAll(projectilesToRemove);
         }
+
+         */
     }
 
     /**
@@ -278,7 +293,6 @@ public class Model {
         for (Item item : items) {
             if (abs(item.getPosX()-player.getPosX()) < 0.5 && abs(item.getPosY()-player.getPosY()) < 0.5) {
                 if (!(item instanceof Key) || !(player.hasKey())) {
-                    System.out.println("pickup");
                     player.addToInventory(item);
                     checkUpgrade();
                     toBeRemoved.add(item);

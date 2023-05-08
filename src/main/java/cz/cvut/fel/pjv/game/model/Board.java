@@ -15,6 +15,9 @@ public class Board {
         blocks = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+                if (blockMap[j][i] == 5) {
+                    Chest chest = new Chest(i+1, j+1, blockMap[j][i], assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
+                }
                 Block block = new Block(i+1, j+1, blockMap[j][i],assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
                 blocks.add(block);
             }
@@ -34,6 +37,10 @@ public class Board {
         return new Block(-1,-1,-1, true,true);
     }
 
+    public void changeBlockValue(int x, int y, int newValue) {
+        getBlock(x,y).setValue(newValue);
+    }
+
     private boolean assignWalkThrough(int number) {
         return number%2==0;
     }
@@ -41,4 +48,5 @@ public class Board {
     private boolean assignShootThrough(int number) {
         return number%3==0;
     }
+
 }

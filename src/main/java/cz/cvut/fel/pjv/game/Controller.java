@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Controller extends Application {
@@ -38,10 +37,6 @@ public class Controller extends Application {
             if (started && !paused) {
                 if ("wasd".contains(key.getCode().toString().toLowerCase())) {
                     model.movePlayer(key.getText().toLowerCase().charAt(0));
-                }
-                if (key.getText().equals("u")) {  // DELETE !!!
-                    System.out.println("upgrade");
-                    upgrade();
                 }
             }
         });
@@ -90,6 +85,10 @@ public class Controller extends Application {
         view.draw();
     }
 
+    public void redrawBoard() {
+        view.drawBoard();
+    }
+
     public void updateModel() {
         model.update();
     }
@@ -101,6 +100,9 @@ public class Controller extends Application {
     }
 
     public void pauseGame() {
+        if (model.allEnemiesDead()) {
+            ggwp();
+        }
         gameLoop.stop();
         paused = true;
     }
@@ -115,17 +117,15 @@ public class Controller extends Application {
         view.badEnd();
     }
 
-    public void allDead() {
-        view.endButton();
-    }
-
     public void ggwp() {
+        System.out.println("ggwp");
         gameLoop.stop();
         model.savePlayerData();
         view.goodEnd();
     }
 
     public void upgrade() {
+        updateView();
         pauseGame();
         view.upgrade();
     }

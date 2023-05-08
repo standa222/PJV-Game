@@ -24,20 +24,28 @@ public class View {
     private final float sceneHeight;
     private final Stage stage;
     private final Model model;
-    private final HashMap<Integer,Color> colorMap;
+    private final HashMap<Integer,String> graphicsMap;
+    private final HashMap<String, Integer> rotateMap;
     private final Controller controller;
     private Pane pane;
+    private Pane board;
 
     public View(Stage stage, Model model, Controller controller) {
         this.stage = stage;
         this.model = model;
-        colorMap = new HashMap<>();
         sceneWidth = BLOCK_SIZE * model.getBoardWidth();
         sceneHeight = BLOCK_SIZE * model.getBoardHeight();
-        colorMap.put(6, Color.rgb(44,229,80));
-        colorMap.put(1, Color.rgb(150,150,150));
-        colorMap.put(3, Color.rgb(63,111,233));
         this.controller = controller;
+        graphicsMap = new HashMap<>();
+        graphicsMap.put(6, "grass.png");
+        graphicsMap.put(1, "stone.png");
+        graphicsMap.put(3, "water.jpeg");
+        graphicsMap.put(5, "chest.jpg");
+        rotateMap = new HashMap<>();
+        rotateMap.put("up", 180);
+        rotateMap.put("down", 0);
+        rotateMap.put("left", 90);
+        rotateMap.put("right", 270);
     }
 
     /**
@@ -51,6 +59,7 @@ public class View {
             @Override
             public void handle(ActionEvent actionEvent) {
                 controller.startGameLoop();
+                drawBoard();
             }
         });
         ImageView menuImage = new ImageView();
@@ -74,48 +83,74 @@ public class View {
      */
     public void draw() {
         pane = new Pane();
-        drawBoard(pane);
+        pane.getChildren().add(board);
         drawPlayer(pane);
         drawEnemies(pane);
         drawProjectiles(pane);
         drawItems(pane);
         drawInventoryHP(pane);
+        if (model.allEnemiesDead()) {
+            end(pane);
+        }
         stage.setScene(new Scene(pane, sceneWidth, sceneHeight));
     }
 
-    public void drawBoard(Pane pane) {
+    public void drawBoard() {
+        board = new Pane();
         for (Block block : model.getBoard().getBlocks()) {
-            Rectangle r = new Rectangle((block.getX()-1)*BLOCK_SIZE, (block.getY()-1)*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-            r.setFill(colorMap.get(block.getValue()));
-            pane.getChildren().add(r);
+            ImageView iv = new ImageView();
+            iv.setImage(new Image(graphicsMap.get(block.getValue())));
+            iv.setFitWidth(BLOCK_SIZE);
+            iv.setFitHeight(BLOCK_SIZE);
+            iv.setLayoutX((block.getX()-1) * BLOCK_SIZE);
+            iv.setLayoutY((block.getY()-1) * BLOCK_SIZE);
+            board.getChildren().add(iv);
         }
     }
 
     public void drawPlayer(Pane pane) {
-        Circle player = new Circle(model.getPlayer().getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, model.getPlayer().getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 25);
-        player.setFill(Color.YELLOW);
+        ImageView player = new ImageView();
+        player.setImage(new Image("player.png"));
+        player.setFitWidth(BLOCK_SIZE);
+        player.setFitHeight(BLOCK_SIZE);
+        player.setRotate(rotateMap.get(model.getPlayer().getFacing()));
+        player.setLayoutX((model.getPlayer().getPosX()-1) * BLOCK_SIZE);
+        player.setLayoutY((model.getPlayer().getPosY()-1) * BLOCK_SIZE);
         pane.getChildren().add(player);
     }
 
     public void drawEnemies(Pane pane) {
         for (Enemy enemy : model.getEnemies()) {
-            Circle c = new Circle(enemy.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, enemy.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 25);
-            c.setFill(Color.BLACK);
-            pane.getChildren().add(c);
+            ImageView e = new ImageView();
+            e.setImage(new Image("enemy.jpg"));
+            e.setFitWidth(BLOCK_SIZE);
+            e.setFitHeight(BLOCK_SIZE);
+            e.setLayoutX((enemy.getPosX()-1) * BLOCK_SIZE);
+            e.setLayoutY((enemy.getPosY()-1) * BLOCK_SIZE);
+            pane.getChildren().add(e);
         }
     }
 
     public void drawProjectiles(Pane pane) {
         for (Projectile p : model.getPlayer().getProjectiles()) {
-            Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
-            pane.getChildren().add(c);
+            drawProjectile(pane, p);
         }
         for (Enemy e : model.getEnemies()) {
             for (Projectile p : e.getProjectiles()) {
-                Circle c = new Circle(p.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, p.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
-                pane.getChildren().add(c);
+                drawProjectile(pane, p);
             }
         }
+    }
+
+    public void drawProjectile(Pane pane, Projectile p) {
+        ImageView arrow = new ImageView();
+        arrow.setImage(new Image("arrow.png"));
+        arrow.setFitWidth(BLOCK_SIZE);
+        arrow.setFitHeight(BLOCK_SIZE);
+        arrow.setLayoutX((p.getPosX()-1) * BLOCK_SIZE);
+        arrow.setLayoutY((p.getPosY()-1) * BLOCK_SIZE);
+        arrow.setRotate(rotateMap.get(p.getDirection())+90);
+        pane.getChildren().add(arrow);
     }
 
     public void drawItems(Pane pane) {
@@ -222,29 +257,18 @@ public class View {
             @Override
             public void handle(ActionEvent actionEvent) {
                 model.getPlayer().upgradeMS();
-                model.getPlayer().getCoin().setValue(model.getPlayer().getCoinValue()-100);
                 controller.resumeGame();
             }
         });
-
         pane.getChildren().addAll(upgradeADButton,upgradeASButton, upgradeHPButton, upgradeMSButton);
     }
 
-    public void endButton() {
-        Button endButton = new Button("End level");
-        endButton.setPadding(new Insets(16));
-        endButton.setFont(new Font(20));
-        endButton.setMinWidth(350);
-        endButton.setMinHeight(70);
-        endButton.setLayoutX(sceneWidth/2 - 350/2);
-        endButton.setLayoutY(100);
-        endButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                controller.ggwp();
-            }
-        });
-
+    public void end(Pane pane) {
+        Text endText = new Text("Press ESC to end level");
+        endText.setFont(new Font(35));
+        endText.setLayoutX(sceneWidth/2 - 190);
+        endText.setLayoutY(130);
+        pane.getChildren().add(endText);
     }
 
     public void goodEnd() {

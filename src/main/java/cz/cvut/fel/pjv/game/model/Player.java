@@ -92,21 +92,42 @@ public class Player {
         return false;
     }
 
+    public void removeKey() {
+        Item key = null;
+        for (Item item : inventory) {
+            if (item instanceof Key) {
+                key = item;
+                break;
+            }
+        }
+        if (key != null) {
+            inventory.remove(key);
+        }
+    }
+
+    public void kill() {
+        isDead = true;
+    }
+
     public void upgradeAD() {
         attackDamage += 10;
+        getCoin().setValue(getCoinValue()-100);
     }
 
     public void upgradeAS() {
         attackSpeed += 0.25;
+        getCoin().setValue(getCoinValue()-100);
     }
 
     public void upgradeHP() {
         max_hp += 25;
         hp += 25;
+        getCoin().setValue(getCoinValue()-100);
     }
 
     public void upgradeMS() {
         maxMovementSpeed += 0.01;
+        getCoin().setValue(getCoinValue()-100);
     }
 
     public double getPosX() {
@@ -167,5 +188,9 @@ public class Player {
 
     public int getHp() {
         return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }

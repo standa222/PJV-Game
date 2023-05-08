@@ -32,6 +32,10 @@ public class Block {
     }
 
     public boolean isShootThrough() {
-        return shootThrough;
+        return !shootThrough;
+    }
+
+    public void setValue(int newValue) {
+        value = newValue;
     }
 }

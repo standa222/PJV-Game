@@ -8,6 +8,11 @@ public class Coin extends Item {
         this.value = 50;
     }
 
+    public Coin(double posX, double posY, int value) {
+        super(posX, posY);
+        this.value = value;
+    }
+
     @Override
     public void pickUp() {
     }

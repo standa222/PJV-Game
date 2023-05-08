@@ -118,4 +118,8 @@ public class Enemy {
     public String getDrop() {
         return drop;
     }
+
+    public int getAttackDamage() {
+        return attackDamage;
+    }
 }
