@@ -193,4 +193,24 @@ public class Player {
     public void setHp(int hp) {
         this.hp = hp;
     }
+
+    public void setMax_hp(int max_hp) {
+        this.max_hp = max_hp;
+    }
+
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public void setAttackSpeed(double attackSpeed) {
+        this.attackSpeed = attackSpeed;
+    }
+
+    public int getMax_hp() {
+        return max_hp;
+    }
+
+    public double getAttackSpeed() {
+        return attackSpeed;
+    }
 }

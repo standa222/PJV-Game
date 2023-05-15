@@ -21,7 +21,7 @@ public class Controller extends Application {
     private final double timePerFrame = 1000000000.0 / FPS;
     private AnimationTimer gameLoop;
     private boolean paused = true;
-    private boolean started = false;
+    private boolean running = false;
 
     public static void main(String[] args) {
         launch();
@@ -31,10 +31,14 @@ public class Controller extends Application {
     public void start(Stage stage) throws Exception {
         LOGGER.info("starting game");
         model = new Model(loadGameData(), this);
+
+        if (new File("src/main/resources/player.txt").exists()) {
+            model.loadPlayerData();
+        }
         view = new View(stage, model, this);
         view.showStartMenu();
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            if (started && !paused) {
+            if (running && !paused) {
                 if ("wasd".contains(key.getCode().toString().toLowerCase())) {
                     model.movePlayer(key.getText().toLowerCase().charAt(0));
                 }
@@ -50,7 +54,7 @@ public class Controller extends Application {
             if (key.getCode()==KeyCode.ESCAPE) {
                 if (!paused) {
                     pauseGame();
-                } else if (started) {
+                } else if (running) {
                     resumeGame();
                 }
             }
@@ -76,9 +80,19 @@ public class Controller extends Application {
      */
     private GameData loadGameData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        GameData readData = objectMapper.readValue(new File("src/main/resources/init.json"), GameData.class);
+        GameData readData = objectMapper.readValue(new File("src/main/resources/init.json"), GameData.class);   // for testing use easyinit.json
         LOGGER.info("Configuration file loaded");
         return readData;
+    }
+
+    private void savePlayerData() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String playerData = String.valueOf(model.getPlayer().getMax_hp()) + " " + String.valueOf(model.getPlayer().getAttackDamage()) + " " + String.valueOf(model.getPlayer().getAttackSpeed()) + " " + String.valueOf(model.getPlayer().getMaxMovementSpeed());
+        try {
+            objectMapper.writeValue(new File("src/main/resources/player.txt"), playerData);
+        } catch (IOException e) {
+            LOGGER.severe("Couldn't save player data!");
+        }
     }
 
     public void updateView() {
@@ -96,7 +110,7 @@ public class Controller extends Application {
     public void startGameLoop() {
         gameLoop.start();
         paused = false;
-        started = true;
+        running = true;
     }
 
     public void pauseGame() {
@@ -113,20 +127,22 @@ public class Controller extends Application {
     }
 
     public void gameOver() {
+        running = false;
         gameLoop.stop();
         view.badEnd();
     }
 
     public void ggwp() {
-        System.out.println("ggwp");
+        running = false;
         gameLoop.stop();
-        model.savePlayerData();
+        savePlayerData();
         view.goodEnd();
     }
 
     public void upgrade() {
         updateView();
-        pauseGame();
+        gameLoop.stop();
+        paused = true;
         view.upgrade();
     }
 }

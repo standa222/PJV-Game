@@ -156,17 +156,23 @@ public class View {
     public void drawItems(Pane pane) {
         for (Item item : model.getItems()) {
             if (item instanceof Coin) {
-                Circle c = new Circle(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
-                c.setFill(Color.YELLOW);
-                pane.getChildren().add(c);
+                ImageView coin = new ImageView();
+                coin.setImage(new Image("coin.png", 30, 0, true, false));
+                coin.setLayoutX(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2-15);
+                coin.setLayoutY(item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2-15);
+                pane.getChildren().add(coin);
             } else if (item instanceof Key) {
-                Rectangle r = new Rectangle((int)item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, (int)item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 25,10);
-                r.setFill(Color.YELLOW);
-                pane.getChildren().add(r);
+                ImageView key = new ImageView();
+                key.setImage(new Image("key.png", 30, 0, true, false));
+                key.setLayoutX(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2-15);
+                key.setLayoutY(item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2-5);
+                pane.getChildren().add(key);
             } else if (item instanceof HealingPotion) {
-                Circle c = new Circle(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2, item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2, 5);
-                c.setFill(Color.RED);
-                pane.getChildren().add(c);
+                ImageView heart = new ImageView();
+                heart.setImage(new Image("heart.png", 30, 0, true, false));
+                heart.setLayoutX(item.getPosX()*BLOCK_SIZE-BLOCK_SIZE/2-15);
+                heart.setLayoutY(item.getPosY()*BLOCK_SIZE-BLOCK_SIZE/2-15);
+                pane.getChildren().add(heart);
             }
         }
     }
@@ -276,6 +282,15 @@ public class View {
     }
 
     public void badEnd() {
-
+        Rectangle badEnd = new Rectangle(sceneWidth, sceneHeight);
+        badEnd.setFill(Color.RED);
+        badEnd.setOpacity(0.4);
+        pane.getChildren().add(badEnd);
+        Text badEndText = new Text("GAME OVER");
+        badEndText.setFont(new Font(80));
+        badEndText.setLayoutX(sceneWidth/4);
+        badEndText.setLayoutY(sceneHeight/2);
+        pane.getChildren().add(badEndText);
+        System.exit(0);  // na tlacitko
     }
 }

@@ -1,13 +1,19 @@
 package cz.cvut.fel.pjv.game.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.pjv.game.Controller;
 import cz.cvut.fel.pjv.game.GameData;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import static java.lang.Math.*;
 
 public class Model {
+
+    private static final Logger LOGGER = Logger.getLogger(Model.class.getName());
     private final Player player;
     private final ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
@@ -24,6 +30,17 @@ public class Model {
         boardHeight = data.getBoard().length;
         board = new Board(data.getBoard()[0].length, data.getBoard().length, data.getBoard());
         this.controller = controller;
+    }
+
+    public void loadPlayerData() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String playerData = objectMapper.readValue(new File("src/main/resources/player.txt"), String.class);
+        String[] data = playerData.split(" ");
+        player.setMax_hp(Integer.parseInt(data[0]));
+        player.setHp(Integer.parseInt(data[0]));
+        player.setAttackDamage(Integer.parseInt(data[1]));
+        player.setAttackSpeed(Double.parseDouble(data[2]));
+        player.setMaxMovementSpeed(Double.parseDouble(data[3]));
     }
 
     /**
@@ -132,7 +149,7 @@ public class Model {
 
     public void openChest(Block chest) {
         Block newBlock = new Block(chest.getX(), chest.getY(), 6, true, true);
-        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (60+ random()*20));
+        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (150+ random()*20));
         player.removeKey();
         items.add(chestCoin);
         board.getBlocks().add(newBlock);
@@ -268,7 +285,6 @@ public class Model {
         player.getProjectiles().removeAll(projectilesToRemove);
         enemies.removeAll(enemiesToRemove);
         projectilesToRemove = new ArrayList<>();
-        /*
         for (Enemy e : enemies) {
             for (Projectile p : e.getProjectiles()) {
                 if (abs(p.getPosY()-player.getPosY()) < 0.5 && abs(p.getPosX()-player.getPosX()) < 0.5) {
@@ -282,7 +298,6 @@ public class Model {
             e.getProjectiles().removeAll(projectilesToRemove);
         }
 
-         */
     }
 
     /**
@@ -368,12 +383,7 @@ public class Model {
         return true;
     }
 
-    /**
-     * Save Player data like attack damage, attack speed, maximum HP, movement speed into .json format so in next level the Player is alreadz upgraded.
-     */
-    public void savePlayerData() {
-        // TODO
-    }
+
 
     public int getBoardWidth() {
         return boardWidth;

@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78308364-a2af-4993-aade-c351a9914a87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/arrow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/chest.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/enemy.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/grass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/player.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/stone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/water.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/easyinit.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Block.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" afterDir="false" />
@@ -123,7 +113,10 @@
       <workItem from="1683044256508" duration="187000" />
       <workItem from="1683125689449" duration="4890000" />
       <workItem from="1683218868038" duration="3451000" />
-      <workItem from="1683552465379" duration="13968000" />
+      <workItem from="1683552465379" duration="14641000" />
+      <workItem from="1683633291841" duration="133000" />
+      <workItem from="1684055559255" duration="313000" />
+      <workItem from="1684167799967" duration="8360000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, classes added">
       <created>1680962202223</created>
@@ -195,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683227086140</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Graphics improved, most textures added, chests implemented, shooting player implemented (commented so the game is easier to play)">
+      <created>1683569146716</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1683569146716</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,7 +214,8 @@
     <MESSAGE value="Level edited, loading from config file edited (data inconsistency for board size prevented)" />
     <MESSAGE value="Movement and shooting improvements for both players and ememies (cant walk through rocks and water, cant shoot through rocks anymore)" />
     <MESSAGE value="Items can be picked up. UI improvements (HPs, coins, key), upgrade implemented, but not working properly yet." />
-    <option name="LAST_COMMIT_MESSAGE" value="Items can be picked up. UI improvements (HPs, coins, key), upgrade implemented, but not working properly yet." />
+    <MESSAGE value="Graphics improved, most textures added, chests implemented, shooting player implemented (commented so the game is easier to play)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Graphics improved, most textures added, chests implemented, shooting player implemented (commented so the game is easier to play)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
