@@ -1,6 +1,6 @@
 package cz.cvut.fel.pjv.game.model;
 
-public abstract class Item {
+public class Item {
     private double posX;
     private double posY;
 
@@ -9,7 +9,8 @@ public abstract class Item {
         this.posY = posY;
     }
 
-    public abstract void pickUp();
+    public Item() {
+    }
 
     public double getPosX() {
         return posX;

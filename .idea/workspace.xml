@@ -5,12 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78308364-a2af-4993-aade-c351a9914a87" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/easyinit.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/cz/cvut/fel/pjv/game/model/ModelTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Chest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Chest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Coin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/HealingPotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/HealingPotion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Key.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Key.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/easyinit.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/easyinit.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/init.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +62,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/stanislav/Documents/sem2/PJV/semestralka/playground&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/stanislav/Documents/sem2/TS1/cv6/hw04&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -60,7 +70,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.capture&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -69,7 +79,7 @@
       <recent name="cz.cvut.fel.pjv.game" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.game">
     <configuration name="game" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.Controller" />
       <module name="game" />
@@ -78,6 +88,111 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ModelTest.checkHits_enemyProjectileShouldLowerPlayerHP" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fel.pjv.game.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cz.cvut.fel.pjv.game.model" />
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.model.ModelTest" />
+      <option name="METHOD_NAME" value="checkHits_enemyProjectileShouldLowerPlayerHP" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelTest.killEnemy_EnemyIsSetDead" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fel.pjv.game.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cz.cvut.fel.pjv.game.model" />
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.model.ModelTest" />
+      <option name="METHOD_NAME" value="killEnemy_EnemyIsSetDead" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelTest.openChest_playerOpensChest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fel.pjv.game.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cz.cvut.fel.pjv.game.model" />
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.model.ModelTest" />
+      <option name="METHOD_NAME" value="openChest_playerOpensChest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelTest.process1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fel.pjv.game.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cz.cvut.fel.pjv.game.model" />
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.model.ModelTest" />
+      <option name="METHOD_NAME" value="process1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelTest.process2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fel.pjv.game.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cz.cvut.fel.pjv.game.model" />
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.model.ModelTest" />
+      <option name="METHOD_NAME" value="process2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelTest.process4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="game" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fel.pjv.game.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cz.cvut.fel.pjv.game.model" />
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.model.ModelTest" />
+      <option name="METHOD_NAME" value="process4" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ModelTest.process2" />
+        <item itemvalue="JUnit.ModelTest.process1" />
+        <item itemvalue="JUnit.ModelTest.process4" />
+        <item itemvalue="JUnit.ModelTest.killEnemy_EnemyIsSetDead" />
+        <item itemvalue="JUnit.ModelTest.openChest_playerOpensChest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -116,7 +231,13 @@
       <workItem from="1683552465379" duration="14641000" />
       <workItem from="1683633291841" duration="133000" />
       <workItem from="1684055559255" duration="313000" />
-      <workItem from="1684167799967" duration="8360000" />
+      <workItem from="1684167799967" duration="8640000" />
+      <workItem from="1684255032564" duration="6922000" />
+      <workItem from="1684302867971" duration="2064000" />
+      <workItem from="1684336361483" duration="6000" />
+      <workItem from="1684336597881" duration="2741000" />
+      <workItem from="1684406260931" duration="15916000" />
+      <workItem from="1684516616176" duration="7975000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, classes added">
       <created>1680962202223</created>
@@ -195,11 +316,29 @@
       <option name="project" value="LOCAL" />
       <updated>1683569146716</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Graphics of dropped items removed, saving player data after succesfully finished level implemented, game over screen added.">
+      <created>1684182255546</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1684182255546</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -215,7 +354,8 @@
     <MESSAGE value="Movement and shooting improvements for both players and ememies (cant walk through rocks and water, cant shoot through rocks anymore)" />
     <MESSAGE value="Items can be picked up. UI improvements (HPs, coins, key), upgrade implemented, but not working properly yet." />
     <MESSAGE value="Graphics improved, most textures added, chests implemented, shooting player implemented (commented so the game is easier to play)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Graphics improved, most textures added, chests implemented, shooting player implemented (commented so the game is easier to play)" />
+    <MESSAGE value="Graphics of dropped items removed, saving player data after succesfully finished level implemented, game over screen added." />
+    <option name="LAST_COMMIT_MESSAGE" value="Graphics of dropped items removed, saving player data after succesfully finished level implemented, game over screen added." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

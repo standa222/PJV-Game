@@ -5,6 +5,7 @@ import cz.cvut.fel.pjv.game.model.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -278,19 +279,48 @@ public class View {
     }
 
     public void goodEnd() {
-
+        Rectangle goodEnd = new Rectangle(sceneWidth, sceneHeight);
+        goodEnd.setFill(Color.GREEN);
+        goodEnd.setOpacity(0.5);
+        Text goodEndText = new Text("LEVEL COMPLETED");
+        goodEndText.setFont(new Font(80));
+        Button goodEndButton = new Button("Exit the game");
+        goodEndButton.setMinSize(220, 50);
+        goodEndButton.setLayoutX(sceneWidth/2-110);
+        goodEndButton.setLayoutY(sceneHeight/2+50);
+        goodEndButton.setFont(new Font(25));
+        VBox vBox = new VBox(20, goodEndText, goodEndButton);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setMinSize(sceneWidth, sceneHeight);
+        goodEndButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+        pane.getChildren().addAll(goodEnd, vBox);
     }
 
     public void badEnd() {
         Rectangle badEnd = new Rectangle(sceneWidth, sceneHeight);
         badEnd.setFill(Color.RED);
         badEnd.setOpacity(0.4);
-        pane.getChildren().add(badEnd);
         Text badEndText = new Text("GAME OVER");
         badEndText.setFont(new Font(80));
-        badEndText.setLayoutX(sceneWidth/4);
-        badEndText.setLayoutY(sceneHeight/2);
-        pane.getChildren().add(badEndText);
-        System.exit(0);  // na tlacitko
+        Button badEndButton = new Button("Exit the game");
+        badEndButton.setMinSize(220, 50);
+        badEndButton.setLayoutX(sceneWidth/2-110);
+        badEndButton.setLayoutY(sceneHeight/2+50);
+        badEndButton.setFont(new Font(25));
+        VBox vBox = new VBox(20, badEndText, badEndButton);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setMinSize(sceneWidth, sceneHeight);
+        badEndButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+        pane.getChildren().addAll(badEnd, vBox);
     }
 }

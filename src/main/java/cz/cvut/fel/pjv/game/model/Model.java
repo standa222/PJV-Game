@@ -96,10 +96,10 @@ public class Model {
      * Advances the state of player
      */
     public void updatePlayer() {
-        Block nextBlock = board.getBlock((int) Math.round(player.getPosX()+1*signum(player.getMovementSpeed()[0])), (int) Math.round(player.getPosY()+1*signum(player.getMovementSpeed()[1])));
-        Block thisBlock = board.getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
+        Block nextBlock = getBoard().getBlock((int) Math.round(player.getPosX()+1*signum(player.getMovementSpeed()[0])), (int) Math.round(player.getPosY()+1*signum(player.getMovementSpeed()[1])));
+        Block thisBlock = getBoard().getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
         if (nextBlock.getValue() == 5 && player.hasKey()) {
-            openChest(nextBlock);
+            openChest((Chest) nextBlock);
         }
         if (nextBlock.isWalkThrough()) {
             if (player.getMovementSpeed()[0]!=0) {
@@ -147,11 +147,12 @@ public class Model {
         player.shoot();
     }
 
-    public void openChest(Block chest) {
+    public void openChest(Chest chest) {
         Block newBlock = new Block(chest.getX(), chest.getY(), 6, true, true);
-        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (150+ random()*20));
+        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (80+ random()*20));
         player.removeKey();
         items.add(chestCoin);
+        chest.setOpened();
         board.getBlocks().add(newBlock);
         board.getBlocks().remove(chest);
         controller.redrawBoard();
@@ -392,4 +393,5 @@ public class Model {
     public int getBoardHeight() {
         return boardHeight;
     }
+
 }

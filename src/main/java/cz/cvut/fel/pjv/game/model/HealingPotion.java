@@ -13,8 +13,4 @@ public class HealingPotion extends Item {
         return healValue;
     }
 
-    @Override
-    public void pickUp() {
-
-    }
 }

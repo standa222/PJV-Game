@@ -6,22 +6,26 @@ public class Board {
     private int width;
     private int height;
     private int[][] blockMap;
-    private ArrayList<Block> blocks;
+    private ArrayList<Block> blocks = new ArrayList<>();
 
     public Board(int width, int height, int[][] blockMap) {
         this.width = width;
         this.height = height;
         this.blockMap = blockMap;
-        blocks = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (blockMap[j][i] == 5) {
                     Chest chest = new Chest(i+1, j+1, blockMap[j][i], assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
+                    blocks.add(chest);
+                } else {
+                    Block block = new Block(i + 1, j + 1, blockMap[j][i], assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
+                    blocks.add(block);
                 }
-                Block block = new Block(i+1, j+1, blockMap[j][i],assignWalkThrough(blockMap[j][i]), assignShootThrough(blockMap[j][i]));
-                blocks.add(block);
             }
         }
+    }
+
+    public Board() {
     }
 
     public ArrayList<Block> getBlocks() {
@@ -47,6 +51,10 @@ public class Board {
 
     private boolean assignShootThrough(int number) {
         return number%3==0;
+    }
+
+    public int[][] getBlockMap(){
+        return blockMap;
     }
 
 }

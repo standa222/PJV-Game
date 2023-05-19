@@ -35,8 +35,8 @@ public class Player {
 
     public void shoot() {
         shootingCounter++;
-        if (shootingCounter > 120/attackSpeed) {
-            Projectile p = new Projectile(posX, posY, this.getClass(), facing);
+        if (shootingCounter >= 120/attackSpeed) {
+            Projectile p = new Projectile(posX, posY, "player", facing);
             projectiles.add(p);
             shootingCounter = 0;
         }

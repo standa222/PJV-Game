@@ -23,6 +23,8 @@ public class Controller extends Application {
     private boolean paused = true;
     private boolean running = false;
 
+    public Controller() {
+    }
     public static void main(String[] args) {
         launch();
     }
@@ -100,7 +102,9 @@ public class Controller extends Application {
     }
 
     public void redrawBoard() {
-        view.drawBoard();
+        if (view !=null) {
+            view.drawBoard();
+        }
     }
 
     public void updateModel() {

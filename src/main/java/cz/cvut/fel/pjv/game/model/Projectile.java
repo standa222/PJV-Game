@@ -3,30 +3,25 @@ package cz.cvut.fel.pjv.game.model;
 public class Projectile {
     private double posX;
     private double posY;
-    private Class source;
-    private final String direction;
+    private String source;
+    private String direction;
     private double[] speed;
-    private final double maxSpeed = 0.1;
 
-    public Projectile(double posX, double posY, Class source, String direction) {
+    public Projectile(double posX, double posY, String source, String direction) {
         this.posX = posX;
         this.posY = posY;
         this.source = source;
         this.direction = direction;
+        double maxSpeed = 0.1;
         switch (direction) {
-            case "up":
-                speed = new double[]{ 0, -maxSpeed};
-                break;
-            case "down":
-                speed = new double[] {0, maxSpeed};
-                break;
-            case "left":
-                speed = new double[] {-maxSpeed, 0};
-                break;
-            case "right":
-                speed = new double[] {maxSpeed, 0};
-                break;
+            case "up" -> speed = new double[]{0, -maxSpeed};
+            case "down" -> speed = new double[]{0, maxSpeed};
+            case "left" -> speed = new double[]{-maxSpeed, 0};
+            case "right" -> speed = new double[]{maxSpeed, 0};
         }
+    }
+
+    public Projectile() {
     }
 
     public double getPosX() {
@@ -53,7 +48,4 @@ public class Projectile {
         return speed;
     }
 
-    public Class getSource() {
-        return source;
-    }
 }

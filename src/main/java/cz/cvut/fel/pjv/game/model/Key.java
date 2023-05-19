@@ -7,8 +7,7 @@ public class Key extends Item {
         super(posX, posY);
     }
 
-    @Override
-    public void pickUp() {
-
+    public Key() {
+        super();
     }
 }

@@ -6,4 +6,8 @@ public class Chest extends Block {
         super(x, y, value, walkThrough, shootThrough);
         opened = false;
     }
+
+    public void setOpened() {
+        opened = true;
+    }
 }
