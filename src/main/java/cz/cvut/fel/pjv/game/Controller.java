@@ -29,8 +29,16 @@ public class Controller extends Application {
         launch();
     }
 
+    /**
+
+     Starts the game by initializing the necessary components and setting up event handlers.
+
+     @param stage The JavaFX stage for displaying the game.
+
+     @throws IOException if an error occurs during initialization (loading data from config file).
+     */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws IOException {
         LOGGER.info("starting game");
         model = new Model(loadGameData(), this);
 
@@ -75,10 +83,10 @@ public class Controller extends Application {
     }
 
     /**
-     * Load game data from .json configuration file.
+     * Loads the game data from a configuration file.
      *
-     * @return returns data read from the file that are essential for creating model
-     * @throws IOException if file is not found
+     * @return The loaded GameData object containing essential dat for creating Model.
+     * @throws IOException if an error occurs while reading the file.
      */
     private GameData loadGameData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -87,6 +95,9 @@ public class Controller extends Application {
         return readData;
     }
 
+    /**
+     * Saves the player data to a file.
+     */
     private void savePlayerData() {
         ObjectMapper objectMapper = new ObjectMapper();
         String playerData = String.valueOf(model.getPlayer().getMax_hp()) + " " + String.valueOf(model.getPlayer().getAttackDamage()) + " " + String.valueOf(model.getPlayer().getAttackSpeed()) + " " + String.valueOf(model.getPlayer().getMaxMovementSpeed());
@@ -97,26 +108,44 @@ public class Controller extends Application {
         }
     }
 
+    /**
+     * Updates the game view by triggering a redraw.
+     */
     public void updateView() {
         view.draw();
     }
 
+    /**
+     * Redraws the game board if view is defined.
+     */
     public void redrawBoard() {
         if (view !=null) {
             view.drawBoard();
         }
     }
 
+    /**
+     * Updates the game model.
+     */
     public void updateModel() {
         model.update();
     }
 
+    /**
+     * Starts the game loop, allowing the game to run continuously.
+     * Sets the game loop state to running and not paused.
+     */
     public void startGameLoop() {
         gameLoop.start();
         paused = false;
         running = true;
     }
 
+    /**
+     * Pauses the game.
+     * Stops the game loop and sets game to paused state.
+     * If all enemies are dead, triggers the ending method.
+     */
     public void pauseGame() {
         if (model.allEnemiesDead()) {
             ggwp();
@@ -125,17 +154,29 @@ public class Controller extends Application {
         paused = true;
     }
 
+    /**
+     * Resumes the game
+     */
     public void resumeGame() {
         gameLoop.start();
         paused = false;
     }
 
+    /**
+     * Handles the game over condition. Ends the game.
+     * Sets the running state to false, stops the game loop, and triggers the "badEnd" method in the view.
+     */
     public void gameOver() {
         running = false;
         gameLoop.stop();
         view.badEnd();
     }
 
+    /**
+     * Handles the "ggwp" (good game, well played) condition. Ends the game.
+     * Sets the running state to false, stops the game loop, saves the player data,
+     * and triggers the "goodEnd" method in the view.
+     */
     public void ggwp() {
         running = false;
         gameLoop.stop();
@@ -143,6 +184,12 @@ public class Controller extends Application {
         view.goodEnd();
     }
 
+
+    /**
+     * Handles the upgrade event.
+     * Updates the game view, stops the game loop, sets the paused state to true,
+     * and triggers the "upgrade" method in the view.
+     */
     public void upgrade() {
         updateView();
         gameLoop.stop();

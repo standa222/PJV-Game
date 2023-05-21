@@ -7,6 +7,7 @@ import cz.cvut.fel.pjv.game.GameData;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.Math.*;
@@ -16,7 +17,7 @@ public class Model {
     private static final Logger LOGGER = Logger.getLogger(Model.class.getName());
     private final Player player;
     private final ArrayList<Enemy> enemies = new ArrayList<>();
-    private ArrayList<Item> items = new ArrayList<>();
+    private final ArrayList<Item> items = new ArrayList<>();
     private final Board board;
     private final int boardWidth;
     private final int boardHeight;
@@ -32,6 +33,11 @@ public class Model {
         this.controller = controller;
     }
 
+    /**
+     * Loads player data from a file and updates the player accordingly.
+     *
+     * @throws IOException if an error occurs while reading the file.
+     */
     public void loadPlayerData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         String playerData = objectMapper.readValue(new File("src/main/resources/player.txt"), String.class);
@@ -44,8 +50,9 @@ public class Model {
     }
 
     /**
-     * Face player and set movement speed correct way based on pressed key.
-     * @param c is the pressed key
+     * Sets player movement speed and facing attribute in the specified direction based on pressed key.
+     *
+     * @param c The direction character ('w' for up, 'a' for left, 's' for down, 'd' for right).
      */
     public void movePlayer(char c) {
         switch (c) {
@@ -71,14 +78,16 @@ public class Model {
     }
 
     /**
-     * Stop player movement.
+     * Stops player movement.
      */
     public void stopPlayer() {
         player.setMovementSpeed(0,0);
     }
 
     /**
-     * Advances state of the game, key method of the game.
+     * Advances state of the game, key method of model and whole game.
+     * If the player is dead, triggers the "gameOver" method in the controller.
+     * Otherwise, updates the player, enemies, projectiles, and checks for hits and item pickups.
      */
     public void update() {
         if (player.isDead()) {
@@ -93,7 +102,8 @@ public class Model {
     }
 
     /**
-     * Advances the state of player
+     * Advances the state of player. Updates the player's position and actions.
+     * Prevents the movement in case of hitting block that cannot be walked on or the edge of the board.
      */
     public void updatePlayer() {
         Block nextBlock = getBoard().getBlock((int) Math.round(player.getPosX()+1*signum(player.getMovementSpeed()[0])), (int) Math.round(player.getPosY()+1*signum(player.getMovementSpeed()[1])));
@@ -147,19 +157,26 @@ public class Model {
         player.shoot();
     }
 
+    /**
+     * Opens a chest, triggering the necessary actions and updates, like replacing the block, removing key from player's inventory or dropping coins.
+     *
+     * @param chest The chest to be opened.
+     */
     public void openChest(Chest chest) {
         Block newBlock = new Block(chest.getX(), chest.getY(), 6, true, true);
-        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (80+ random()*20));
+        Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (79+ random()*20));
         player.removeKey();
         items.add(chestCoin);
         chest.setOpened();
         board.getBlocks().add(newBlock);
         board.getBlocks().remove(chest);
         controller.redrawBoard();
+        LOGGER.info("Chest opened! " + chestCoin.getValue() + " coins dropped.");
     }
 
     /**
-     * Advances state of enemies
+     * Updates the positions and actions of enemies.
+     * Prevents the movement in case of hitting block that cannot be walked on or the edge of the board.
      */
     public void updateEnemies() {
         for (Enemy e : enemies) {
@@ -216,7 +233,7 @@ public class Model {
     /**
      * Calculates the direction in which should the enemy shoot. The projectile in this direction will be the closest to the player.
      * @param enemy enemy, whose position is used in the calculation
-     * @return the direction in String
+     * @return The direction from the enemy to the player ("up", "down", "left", or "right").
      */
     public String directionToPlayer(Enemy enemy) {
         if (abs(enemy.getPosX()- player.getPosX())<abs(enemy.getPosY()- player.getPosY())) {
@@ -234,9 +251,9 @@ public class Model {
         }
     }
 
-
     /**
-     * Advances state of all projectiles. Iterates through all projectiles of player, then iterates through all enemies and their projectiles.
+     * Updates the positions of projectiles.
+     * Delete those that are out of bounds or collide with obstacles.
      */
     public void updateProjectiles() {
         ArrayList<Projectile> toBeRemoved = new ArrayList<>();
@@ -265,7 +282,9 @@ public class Model {
 
 
     /**
-     * Check if any of the projectiles hit something. Player projectiles can only hurt enemies and Enemy projectiles can only hurt the player.
+     * Checks for collisions between player's projectiles and enemies, and between projectiles of enemies and the player.
+     * Deletes projectiles that hit.
+     * Updates enemy and player health accordingly.
      */
     public void checkHits() {
         // iterate through all the projectiles
@@ -278,6 +297,7 @@ public class Model {
                     if (e.getHp() <= 0) {
                         killEnemy(e);
                         enemiesToRemove.add(e);
+                        LOGGER.info("Enemy killed on X: " + String.format("%.2f", e.getPosX()) + ", Y: " + String.format("%.2f", e.getPosY()) + ". " + e.getDrop() + " dropped.");
                     }
                     projectilesToRemove.add(p);
                 }
@@ -289,8 +309,10 @@ public class Model {
         for (Enemy e : enemies) {
             for (Projectile p : e.getProjectiles()) {
                 if (abs(p.getPosY()-player.getPosY()) < 0.5 && abs(p.getPosX()-player.getPosX()) < 0.5) {
+                    LOGGER.info("Player hit on X: " + String.format("%.2f", player.getPosX()) + ", Y: " + String.format("%.2f", player.getPosY()) + ". " + e.getAttackDamage() + " damage done.");
                     player.setHp(player.getHp()-e.getAttackDamage());
                     if (player.getHp() <= 0) {
+                        LOGGER.info("Player killed on X: " + String.format("%.2f", player.getPosX()) + ", Y: " + String.format("%.2f", player.getPosY()) + ". Game over!");
                         player.kill();
                     }
                     projectilesToRemove.add(p);
@@ -298,17 +320,18 @@ public class Model {
             }
             e.getProjectiles().removeAll(projectilesToRemove);
         }
-
     }
 
     /**
-     * Check if player is standing on any items on the board and should pick them up.
+     * Checks if the player is picking up any items on the board.
+     * If the player picks up an item, it is added to their inventory and further actions are taken based on the item type.
      */
     public void checkItemPickUp() {
         ArrayList<Item> toBeRemoved = new ArrayList<>();
         for (Item item : items) {
             if (abs(item.getPosX()-player.getPosX()) < 0.5 && abs(item.getPosY()-player.getPosY()) < 0.5) {
                 if (!(item instanceof Key) || !(player.hasKey())) {
+                    LOGGER.info(item.getClass().getSimpleName() + " picked up.");
                     player.addToInventory(item);
                     checkUpgrade();
                     toBeRemoved.add(item);
@@ -320,10 +343,16 @@ public class Model {
         }
     }
 
+    /**
+     * Checks if the player's inventory contains any coins with a value of 100 or more.
+     * If such coins are found, the player is eligible for an upgrade and the upgrade process is triggered.
+     * Player is given choice
+     */
     public void checkUpgrade() {
         for (Item item : player.getInventory()) {
             if (item instanceof Coin) {
                 if (((Coin) item).getValue() >= 100) {
+                    LOGGER.info("Player has " + player.getCoinValue() + " coins! TIme for upgrade.");
                     controller.upgrade();
                 }
             }
@@ -331,27 +360,42 @@ public class Model {
     }
 
     /**
-     * When enemy is killed, update its isDead attribute, drop item that it should drop and remove it from enemies list, so it doesn't render anymore.
+     * Kills the specified enemy and determines the item to drop based on its drop type.
+     * The item is added to the list of items in the game.
      *
-     * @param enemy the enemy whose HP went to 0 or below
+     * @param enemy The enemy to be killed.
      */
     public void killEnemy(Enemy enemy) {
         Item item;
         enemy.setDead(true);
         switch (enemy.getDrop()) {
-            case "coin":
+            case "coin" -> {
                 item = new Coin(enemy.getPosX(), enemy.getPosY());
                 items.add(item);
-                break;
-            case "potion":
+            }
+            case "potion" -> {
                 item = new HealingPotion(enemy.getPosX(), enemy.getPosY());
                 items.add(item);
-                break;
-            case "key":
+            }
+            case "key" -> {
                 item = new Key(enemy.getPosX(), enemy.getPosY());
                 items.add(item);
-                break;
+            }
         }
+    }
+
+    /**
+     * Check if all enemies are dead, so the level can be endedx.
+     *
+     * @return {@code true} if all enemies are dead or the list is empty, {@code false} otherwise.
+     */
+    public boolean allEnemiesDead() {
+        for (Enemy e : enemies) {
+            if (!e.isDead()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Board getBoard() {
@@ -370,22 +414,6 @@ public class Model {
         return items;
     }
 
-    /**
-     * Check if all enemies are dead, so the level is done.
-     *
-     * @return {@code true} if all enemies are dead or the list is empty, {@code false} otherwise.
-     */
-    public boolean allEnemiesDead() {
-        for (Enemy e : enemies) {
-            if (!e.isDead()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-
     public int getBoardWidth() {
         return boardWidth;
     }
@@ -393,5 +421,4 @@ public class Model {
     public int getBoardHeight() {
         return boardHeight;
     }
-
 }

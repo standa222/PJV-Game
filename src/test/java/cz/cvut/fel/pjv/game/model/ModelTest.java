@@ -15,7 +15,7 @@ public class ModelTest {
         data = new GameData();
         controller = new Controller();
         data.setBoard(new int[][] {{6,6},{6,6}});
-        data.setEnemies(new String[][] {{"1", "1", "100", "25", "1", "coin"}});
+        data.setEnemies(new String[][] {{"1", "1", "1", "25", "1", "coin"}}); // enemy set to 1 HP for killing testing
         data.setPlayer(new String[]{"1","2","150", "150", "30", "120", "0.05", "up"});
     }
 
@@ -91,7 +91,6 @@ public class ModelTest {
     @Test
     public void killEnemy_EnemyIsSetDeadTest() {
         // arrange
-        data.setEnemies(new String[][] {{"1", "1", "1", "25", "1", "coin"}}); // set enemy HP to 1, so it is killed with 1 shot
         Model testModel = new Model(data,controller);
         Enemy enemy = testModel.getEnemies().get(0);
         Projectile mockedProj = Mockito.mock(Projectile.class);
@@ -107,7 +106,7 @@ public class ModelTest {
     }
 
     @Test
-    public void process1() { // movement test
+    public void movementIntegrationTest() { // movement test
         // arrange
         Model testModel = new Model(data, controller);
 
@@ -135,7 +134,7 @@ public class ModelTest {
     }
 
     @Test
-    public void process2() { // shooting test
+    public void shootingintegrationTest() { // shooting test
         // arrange
         Model testModel = new Model(data, controller);
 
@@ -144,15 +143,56 @@ public class ModelTest {
 
         // assert 1 - shoot
         assertEquals(1, testModel.getPlayer().getProjectiles().size());
+
+        // act 2 - move projectile
+        testModel.updateProjectiles();
+
+        // assert 2 - move projectile
+        assertEquals(1.0, testModel.getPlayer().getProjectiles().get(0).getPosX());
+        assertEquals(1.9, testModel.getPlayer().getProjectiles().get(0).getPosY());
+
+        // act 3 - delete projectile when it moves out from the board
+        for (int i = 0; i<20;i++) {  // give the projectile enough time to get out of the board
+            testModel.updateProjectiles();
+        }
+
+        // assert 3 - delete projectile when it moves out from the board
+        assertEquals(0, testModel.getPlayer().getProjectiles().size());
     }
 
     @Test
-    public void process3() { // hitting and killing and dropping items
+    public void hittingAndKillingEnemyAndDroppingItemsTest() { // hitting and killing and dropping items
+        // arrange
+        data.setEnemies(new String[][] {{"1", "1", "31", "25", "1", "coin"}}); // enemy set to 31 HP so the second projectile kills the enemy
+        Model testModel = new Model(data, controller);
+        Enemy enemy = testModel.getEnemies().get(0);
+        Projectile playerProj1 = new Projectile(1, 1.4, "player", "up");
+        Projectile playerProj2 = new Projectile(1, 1.5, "player", "up");
+
+        testModel.getPlayer().getProjectiles().add(playerProj1);
+        testModel.getPlayer().getProjectiles().add(playerProj2);
+
+        // act 1 - first player projectile hits an enemy
+        testModel.checkHits();
+
+        // assert 1 - second player projectile hits an enemy
+        assertEquals(1, testModel.getEnemies().get(0).getHp());
+
+        // act 2 - second player projectile hits and kills the enemy
+        testModel.updateProjectiles();
+        testModel.checkHits();
+
+        // assert 2 - second player projectile hits and kills the enemy
+        assertTrue(enemy.isDead());
+
+        // assert 3 - coin from dead enemy dropped
+        assertEquals(1, testModel.getItems().size());
+        assertTrue(testModel.getItems().get(0) instanceof Coin);
 
     }
 
     @Test
-    public void process4() { // pick key, open chest, pick coin
+    public void pickingItemsOpeningChestIntegrationTest() { // pick key, open chest, pick coin
         // arrange
         data.setBoard(new int[][] {{6,6}, {6, 5}});
         Model testModel = new Model(data, controller);

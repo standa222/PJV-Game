@@ -47,5 +47,4 @@ public class Projectile {
     public double[] getSpeed() {
         return speed;
     }
-
 }

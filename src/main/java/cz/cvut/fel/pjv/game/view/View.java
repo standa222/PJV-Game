@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -50,7 +49,9 @@ public class View {
     }
 
     /**
-     * Show start menu
+     * Displays the start menu of the game.
+     * The menu includes a "Start the game" button and an image.
+     * Clicking the button initiates the game loop and draws the game board.
      */
     public void showStartMenu() {
         Button startGameButton = new Button("Start the game");
@@ -80,7 +81,11 @@ public class View {
     }
 
     /**
-     * Key method of View, draw everything and bring it on stage.
+     * Draws the game screen on the stage.
+     * The method creates a new Pane and adds various game elements to it,
+     * such as the game board, player, enemies, projectiles, items, and inventory/HP display.
+     * It also checks if all enemies are dead and triggers the end screen if applicable.
+     * Finally, it sets the created Pane as the scene on the stage for display.
      */
     public void draw() {
         pane = new Pane();
@@ -96,6 +101,14 @@ public class View {
         stage.setScene(new Scene(pane, sceneWidth, sceneHeight));
     }
 
+    /**
+     * Draws the game board by creating ImageView objects for each block in the model's board,
+     * setting the appropriate image based on the block's value, and positioning them within a Pane.
+     * The method retrieves the list of blocks from the model's board and iterates over them,
+     * creating an ImageView for each block, setting its image using the graphicsMap,
+     * and positioning it based on the block's coordinates and the block size.
+     * The ImageView objects are added to the board Pane for display.
+     */
     public void drawBoard() {
         board = new Pane();
         for (Block block : model.getBoard().getBlocks()) {
@@ -109,6 +122,13 @@ public class View {
         }
     }
 
+    /**
+     * Draws the player on the specified pane.
+     * The player is represented by an image and is positioned based on their coordinates.
+     * The player's image is rotated based on the player's facing direction.
+     *
+     * @param pane The pane on which to draw the player.
+     */
     public void drawPlayer(Pane pane) {
         ImageView player = new ImageView();
         player.setImage(new Image("player.png"));
@@ -120,6 +140,12 @@ public class View {
         pane.getChildren().add(player);
     }
 
+    /**
+     * Draws the enemies on the specified pane.
+     * Each enemy is represented by an image and positioned based on their coordinates.
+     *
+     * @param pane The pane on which to draw the enemies.
+     */
     public void drawEnemies(Pane pane) {
         for (Enemy enemy : model.getEnemies()) {
             ImageView e = new ImageView();
@@ -132,6 +158,14 @@ public class View {
         }
     }
 
+    /**
+     * Draws the projectiles on the specified pane.
+     * It iterates through the player's projectiles and the enemies' projectiles,
+     * calling the drawProjectile() method to draw each projectile.
+     *
+     * @param pane The pane on which to draw the projectiles.
+     */
+
     public void drawProjectiles(Pane pane) {
         for (Projectile p : model.getPlayer().getProjectiles()) {
             drawProjectile(pane, p);
@@ -143,6 +177,12 @@ public class View {
         }
     }
 
+    /**
+     * Draws a projectile on the specified pane.
+     *
+     * @param pane The pane on which to draw the projectile.
+     * @param p The projectile to be drawn.
+     */
     public void drawProjectile(Pane pane, Projectile p) {
         ImageView arrow = new ImageView();
         arrow.setImage(new Image("arrow.png"));
@@ -154,6 +194,11 @@ public class View {
         pane.getChildren().add(arrow);
     }
 
+    /**
+     * Draws items on the specified pane.
+     *
+     * @param pane The pane on which to draw the items.
+     */
     public void drawItems(Pane pane) {
         for (Item item : model.getItems()) {
             if (item instanceof Coin) {
@@ -178,6 +223,11 @@ public class View {
         }
     }
 
+    /**
+     * Draws the player's inventory and HP on the specified pane.
+     *
+     * @param pane The pane on which to draw the inventory and HP.
+     */
     public void drawInventoryHP(Pane pane) {
         int hp = model.getPlayer().getHp();
         int coinValue = model.getPlayer().getCoinValue();
@@ -203,6 +253,11 @@ public class View {
         pane.getChildren().addAll(hpImage, coinImage, hpText, coinText);
     }
 
+    /**
+     * Displays the upgrade options for the player.
+     * Allows the player to upgrade various attributes such as damage, attack speed, max HP, and movement speed.
+     * The upgrade options are presented as buttons on the specified pane.
+     */
     public void upgrade() {
         int fontSize = 20;
         int padding = 16;
@@ -270,6 +325,12 @@ public class View {
         pane.getChildren().addAll(upgradeADButton,upgradeASButton, upgradeHPButton, upgradeMSButton);
     }
 
+    /**
+     * Displays the end of the level message on the pane.
+     * Informs the player to press ESC to end the level.
+     *
+     * @param pane The pane where the end message will be displayed.
+     */
     public void end(Pane pane) {
         Text endText = new Text("Press ESC to end level");
         endText.setFont(new Font(35));
@@ -278,6 +339,11 @@ public class View {
         pane.getChildren().add(endText);
     }
 
+    /**
+     * Displays the "good end" screen on the pane.
+     * The screen shows a green overlay with the text "LEVEL COMPLETED"
+     * and an "Exit the game" button.
+     */
     public void goodEnd() {
         Rectangle goodEnd = new Rectangle(sceneWidth, sceneHeight);
         goodEnd.setFill(Color.GREEN);
@@ -301,6 +367,11 @@ public class View {
         pane.getChildren().addAll(goodEnd, vBox);
     }
 
+    /**
+     * Displays the "bad end" screen on the pane.
+     * The screen shows a red overlay with the text "GAME OVER"
+     * and an "Exit the game" button.
+     */
     public void badEnd() {
         Rectangle badEnd = new Rectangle(sceneWidth, sceneHeight);
         badEnd.setFill(Color.RED);

@@ -33,6 +33,10 @@ public class Player {
         inventory = new ArrayList<>();
     }
 
+    /**
+     * Increments the counter and checks if it has reached the threshold.
+     * If the counter exceeds the threshold, it creates a new projectile and resets the counter.
+     */
     public void shoot() {
         shootingCounter++;
         if (shootingCounter >= 120/attackSpeed) {
@@ -42,6 +46,11 @@ public class Player {
         }
     }
 
+    /**
+     * Heals the entity by the specified heal value.
+     *
+     * @param healValue The amount of healing to be applied.
+     */
     public void heal(int healValue) {
         hp += healValue;
         if (hp > max_hp) {
@@ -67,6 +76,14 @@ public class Player {
         return null;
     }
 
+    /**
+     * Adds the specified item to the inventory.
+     * Instantly heal the player if it is a healing potion.
+     * Increase coins value in player inventory if it is a coin and player already has some.
+     * Add item to inventory otherwise (if its coins and player has none, or it is a key)
+     *
+     * @param item The item to be added to the inventory.
+     */
     public void addToInventory(Item item) {
         if (item instanceof HealingPotion) {
             heal(((HealingPotion) item).getHealValue());
@@ -83,6 +100,11 @@ public class Player {
         inventory.add(item);
     }
 
+    /**
+     * Checks if the player has a key in their inventory.
+     *
+     * @return {@code true} if the player has a key, {@code false} otherwise.
+     */
     public boolean hasKey() {
         for (Item item : inventory) {
             if (item instanceof Key) {
@@ -92,6 +114,11 @@ public class Player {
         return false;
     }
 
+    /**
+     * Removes a key from the player's inventory.
+     * If the player has a key in their inventory, it is removed.
+     * If the player does not have a key, nothing happens.
+     */
     public void removeKey() {
         Item key = null;
         for (Item item : inventory) {
@@ -109,22 +136,42 @@ public class Player {
         isDead = true;
     }
 
+    /**
+     * Upgrades the player's attack damage.
+     * Increases the attack damage by 10.
+     * Decreases the player's coin value by 100.
+     */
     public void upgradeAD() {
         attackDamage += 10;
         getCoin().setValue(getCoinValue()-100);
     }
 
+    /**
+     * Upgrades the player's attack speed.
+     * Increases the attack damage by 0.25.
+     * Decreases the player's coin value by 100.
+     */
     public void upgradeAS() {
         attackSpeed += 0.25;
         getCoin().setValue(getCoinValue()-100);
     }
 
+    /**
+     * Upgrades the player's maximum HP.
+     * Increases the attack damage by 50.
+     * Decreases the player's coin value by 100.
+     */
     public void upgradeHP() {
-        max_hp += 25;
-        hp += 25;
+        max_hp += 50;
+        hp += 50;
         getCoin().setValue(getCoinValue()-100);
     }
 
+    /**
+     * Upgrades the player's maximum movement speed.
+     * Increases the attack damage by 0.01.
+     * Decreases the player's coin value by 100.
+     */
     public void upgradeMS() {
         maxMovementSpeed += 0.01;
         getCoin().setValue(getCoinValue()-100);

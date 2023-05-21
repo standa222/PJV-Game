@@ -7,15 +7,14 @@ public class Enemy {
     private double posX;
     private double posY;
     private int hp;
-    private int attackDamage;
-    private double attackSpeed;
-    private String drop;
-    private ArrayList<Projectile> projectiles;
+    private final int attackDamage;
+    private final double attackSpeed;
+    private final String drop;
+    private final ArrayList<Projectile> projectiles;
     private boolean isDead;
     private int updateCounter = 0;
     private int shootingCounter = 0;
     private double[] movementSpeed = {0, 0};
-    private String direction = "down";
 
     public Enemy(int posX, int posY, int hp, int attackDamage, double attackSpeed, String drop) {
         this.posX = posX;
@@ -28,18 +27,11 @@ public class Enemy {
         isDead = false;
     }
 
-    public double getPosX() {
-        return posX;
-    }
-
-    public double getPosY() {
-        return posY;
-    }
-
-    public ArrayList<Projectile> getProjectiles() {
-        return projectiles;
-    }
-
+    /**
+     * Updates the state of the enemy.
+     * Increments the update counter and checks if it has reached the threshold.
+     * If the counter exceeds the threshold, it calls the updateMovement method and resets the counter.
+     */
     public void update() {
         updateCounter++;
         if (updateCounter > 120) {
@@ -48,6 +40,11 @@ public class Enemy {
         }
     }
 
+    /**
+     * Updates the movement speed of the enemy.
+     * Generates a random number between 0 and 6 and sets the movement speed based on the random value.
+     * Possible movement directions are up, down, left, right, or no movement.
+     */
     public void updateMovement() {
         Random random = new Random();
         int rand = random.nextInt(7);
@@ -69,6 +66,12 @@ public class Enemy {
         }
     }
 
+    /**
+     * Increments the counter and checks if it has reached the threshold.
+     * If the counter exceeds the threshold, it creates a new projectile and resets the counter.
+     *
+     * @param projectileDirection The direction in which the projectile will be shot.
+     */
     public void shoot(String projectileDirection) {
         shootingCounter++;
         if (shootingCounter > 120 / attackSpeed) {
@@ -78,9 +81,16 @@ public class Enemy {
         }
     }
 
+    public double getPosX() {
+        return posX;
+    }
 
-    public String getDirection() {
-        return direction;
+    public double getPosY() {
+        return posY;
+    }
+
+    public ArrayList<Projectile> getProjectiles() {
+        return projectiles;
     }
 
     public void setPosX(double posX) {
