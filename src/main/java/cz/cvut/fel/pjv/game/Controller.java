@@ -47,6 +47,7 @@ public class Controller extends Application {
         }
         view = new View(stage, model, this);
         view.showStartMenu();
+        // event handler for movement keys
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if (running && !paused) {
                 if ("wasd".contains(key.getCode().toString().toLowerCase())) {
@@ -54,12 +55,14 @@ public class Controller extends Application {
                 }
             }
         });
+        // event handler to stop movement
         stage.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             String letter = key.getCode().toString().toLowerCase();
             if (("w".equals(letter) && model.getPlayer().getFacing().equals("up")) || ("a".equals(letter) && model.getPlayer().getFacing().equals("left")) || ("s".equals(letter) && model.getPlayer().getFacing().equals("down")) || ("d".equals(letter) && model.getPlayer().getFacing().equals("right"))) {
                 model.stopPlayer();
             }
         });
+        // event handler to pause or resume game
         stage.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             if (key.getCode()==KeyCode.ESCAPE) {
                 if (!paused) {
@@ -90,7 +93,8 @@ public class Controller extends Application {
      */
     private GameData loadGameData() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        GameData readData = objectMapper.readValue(new File("src/main/resources/init.json"), GameData.class);   // for testing use easyinit.json
+        // to just see the game and get to end quickly use easyinit.json
+        GameData readData = objectMapper.readValue(new File("src/main/resources/init.json"), GameData.class);
         LOGGER.info("Configuration file loaded");
         return readData;
     }
@@ -178,9 +182,9 @@ public class Controller extends Application {
      * and triggers the "goodEnd" method in the view.
      */
     public void ggwp() {
+        savePlayerData();
         running = false;
         gameLoop.stop();
-        savePlayerData();
         view.goodEnd();
     }
 

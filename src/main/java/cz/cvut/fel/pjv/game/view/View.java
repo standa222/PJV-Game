@@ -230,6 +230,7 @@ public class View {
      */
     public void drawInventoryHP(Pane pane) {
         int hp = model.getPlayer().getHp();
+        int max_hp = model.getPlayer().getMax_hp();
         int coinValue = model.getPlayer().getCoinValue();
         ImageView hpImage = new ImageView();
         hpImage.setImage(new Image("heart.png", 94, 0, true, false));
@@ -239,7 +240,7 @@ public class View {
         coinImage.setImage(new Image("coin.png", 94, 0, true, false));
         coinImage.setLayoutX(27);
         coinImage.setLayoutY(sceneHeight-210);
-        Text hpText = new Text(140, sceneHeight-45, String.valueOf(hp));
+        Text hpText = new Text(140, sceneHeight-45, hp + " / " + max_hp);
         hpText.setFont(new Font(40));
         Text coinText = new Text(140, sceneHeight-148, String.valueOf(coinValue));
         coinText.setFont(new Font(40));

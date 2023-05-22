@@ -7,7 +7,6 @@ import cz.cvut.fel.pjv.game.GameData;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.Math.*;
@@ -51,6 +50,7 @@ public class Model {
 
     /**
      * Sets player movement speed and facing attribute in the specified direction based on pressed key.
+     * When moving, player is always moving at max speed.
      *
      * @param c The direction character ('w' for up, 'a' for left, 's' for down, 'd' for right).
      */
@@ -106,11 +106,14 @@ public class Model {
      * Prevents the movement in case of hitting block that cannot be walked on or the edge of the board.
      */
     public void updatePlayer() {
+        // get current and next block which are used later
         Block nextBlock = getBoard().getBlock((int) Math.round(player.getPosX()+1*signum(player.getMovementSpeed()[0])), (int) Math.round(player.getPosY()+1*signum(player.getMovementSpeed()[1])));
         Block thisBlock = getBoard().getBlock((int) Math.round(player.getPosX()), (int) Math.round(player.getPosY()));
+        // open chest if next block is chest and player has key
         if (nextBlock.getValue() == 5 && player.hasKey()) {
             openChest((Chest) nextBlock);
         }
+        // move if next block  is walkThrough
         if (nextBlock.isWalkThrough()) {
             if (player.getMovementSpeed()[0]!=0) {
                 if ((signum(player.getMovementSpeed()[0]) * (player.getPosX() - thisBlock.getX()) > 0) && (!board.getBlock(nextBlock.getX(), (int) (nextBlock.getY()+1*signum(player.getPosY()- thisBlock.getY()))).isWalkThrough())) {
@@ -142,6 +145,7 @@ public class Model {
                 }
             }
         }
+        // keep player on the board
         if (player.getPosX() < 1) {
             player.setPosX(1);
         }
@@ -163,6 +167,7 @@ public class Model {
      * @param chest The chest to be opened.
      */
     public void openChest(Chest chest) {
+        // replace the chest with a new grass block
         Block newBlock = new Block(chest.getX(), chest.getY(), 6, true, true);
         Coin chestCoin = new Coin(chest.getX(), chest.getY(), (int) (79+ random()*20));
         player.removeKey();
@@ -181,8 +186,10 @@ public class Model {
     public void updateEnemies() {
         for (Enemy e : enemies) {
             e.shoot(directionToPlayer(e));
+            // get current and next block which are used later
             Block nextBlock = board.getBlock((int) Math.round(e.getPosX()+1*signum(e.getMovementSpeed()[0])), (int) Math.round(e.getPosY()+1*signum(e.getMovementSpeed()[1])));
             Block thisBlock = board.getBlock((int) Math.round(e.getPosX()), (int) Math.round(e.getPosY()));
+            // move if next block  is walkThrough
             if (nextBlock.isWalkThrough()) {
                 if (e.getMovementSpeed()[0]!=0) {
                     if ((signum(e.getMovementSpeed()[0]) * (e.getPosX() - thisBlock.getX()) > 0) && (!board.getBlock(nextBlock.getX(), (int) (nextBlock.getY()+1*signum(e.getPosY()- thisBlock.getY()))).isWalkThrough())) {
@@ -214,6 +221,7 @@ public class Model {
                     }
                 }
             }
+            // keep enemy on the board
             if (e.getPosX() < 1) {
                 e.setPosX(1);
             }
@@ -256,6 +264,7 @@ public class Model {
      * Delete those that are out of bounds or collide with obstacles.
      */
     public void updateProjectiles() {
+        // iterate through all player projectiles
         ArrayList<Projectile> toBeRemoved = new ArrayList<>();
         for (Projectile p : player.getProjectiles()) {
             p.setPosX(p.getPosX()+p.getSpeed()[0]);
@@ -265,7 +274,9 @@ public class Model {
                 toBeRemoved.add(p);
             }
         }
+        // remove those are out of the board or hit blocks that are not shootThrough
         player.getProjectiles().removeAll(toBeRemoved);
+        // iterate through projectiles of all every enemy
         for (Enemy e : enemies) {
             toBeRemoved = new ArrayList<>();
             for (Projectile p : e.getProjectiles()) {
@@ -276,6 +287,7 @@ public class Model {
                     toBeRemoved.add(p);
                 }
             }
+            // remove those are out of the board or hit blocks that are not shootThrough
             e.getProjectiles().removeAll(toBeRemoved);
         }
     }
@@ -303,6 +315,7 @@ public class Model {
                 }
             }
         }
+        // remove those that hit an enemy
         player.getProjectiles().removeAll(projectilesToRemove);
         enemies.removeAll(enemiesToRemove);
         projectilesToRemove = new ArrayList<>();
@@ -318,6 +331,7 @@ public class Model {
                     projectilesToRemove.add(p);
                 }
             }
+            // remove those that hit the player
             e.getProjectiles().removeAll(projectilesToRemove);
         }
     }

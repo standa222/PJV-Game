@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78308364-a2af-4993-aade-c351a9914a87" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Constants.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/GameData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/GameData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Door.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/model/Projectile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cz/cvut/fel/pjv/game/view/View.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cz/cvut/fel/pjv/game/model/ModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cz/cvut/fel/pjv/game/model/ModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/easyinit.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/easyinit.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/init.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/init.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/menu.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/menu.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +70,7 @@
       <recent name="cz.cvut.fel.pjv.game" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.game">
+  <component name="RunManager">
     <configuration name="game" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="cz.cvut.fel.pjv.game.Controller" />
       <module name="game" />
@@ -236,7 +232,11 @@
       <workItem from="1684528111304" duration="1408000" />
       <workItem from="1684586178115" duration="620000" />
       <workItem from="1684688161002" duration="2473000" />
-      <workItem from="1684694844706" duration="2852000" />
+      <workItem from="1684694844706" duration="3300000" />
+      <workItem from="1684747975730" duration="780000" />
+      <workItem from="1684749404341" duration="734000" />
+      <workItem from="1684751866040" duration="4938000" />
+      <workItem from="1684772263257" duration="821000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit, classes added">
       <created>1680962202223</created>
@@ -329,7 +329,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684526070753</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="JavaDoc for all public functions (excluding getters and setters) added">
+      <created>1684706258707</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1684706258707</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,7 +369,8 @@
     <MESSAGE value="Graphics improved, most textures added, chests implemented, shooting player implemented (commented so the game is easier to play)" />
     <MESSAGE value="Graphics of dropped items removed, saving player data after succesfully finished level implemented, game over screen added." />
     <MESSAGE value="Minor improvements, game almost done, unit tests added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor improvements, game almost done, unit tests added" />
+    <MESSAGE value="JavaDoc for all public functions (excluding getters and setters) added" />
+    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc for all public functions (excluding getters and setters) added" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

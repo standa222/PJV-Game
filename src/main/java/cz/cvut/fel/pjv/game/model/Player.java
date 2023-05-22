@@ -12,8 +12,8 @@ public class Player {
     private double maxMovementSpeed;
     private double[] movementSpeed;
     private String facing;
-    private ArrayList<Projectile> projectiles;
-    private ArrayList<Item> inventory;
+    private final ArrayList<Projectile> projectiles;
+    private final ArrayList<Item> inventory;
     private boolean isDead;
 
     private int shootingCounter = 0;
@@ -152,7 +152,7 @@ public class Player {
      * Decreases the player's coin value by 100.
      */
     public void upgradeAS() {
-        attackSpeed += 0.25;
+        attackSpeed += 0.5;
         getCoin().setValue(getCoinValue()-100);
     }
 
@@ -173,7 +173,7 @@ public class Player {
      * Decreases the player's coin value by 100.
      */
     public void upgradeMS() {
-        maxMovementSpeed += 0.01;
+        maxMovementSpeed += 0.015;
         getCoin().setValue(getCoinValue()-100);
     }
 
